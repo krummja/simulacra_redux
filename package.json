@@ -1,0 +1,42 @@
+{
+  "name": "simulacra",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc",
+    "build": "webpack --config webpack.config.js",
+    "rebuild": "tsc && webpack --config webpack.config.js",
+    "serve": "webpack-dev-server --config webpack.config.js",
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.4",
+    "@types/reflect-metadata": "^0.1.0",
+    "@types/rot-js": "^2.0.1",
+    "@types/rx": "^4.1.2",
+    "@types/sprintf": "^0.1.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "reflect-metadata": "^0.1.13",
+    "sprintf": "^0.1.5",
+    "ts-loader": "^7.0.4",
+    "ts-mixer": "^5.2.1",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@types/events": "^3.0.0",
+    "events": "^3.1.0",
+    "inversify": "^5.0.1",
+    "rot-js": "^2.1.1"
+  }
+}
