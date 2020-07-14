@@ -1,0 +1,73 @@
+@font-face {
+  font-family: 'Fira Code';
+  src: url('/assets/FiraCode-Bold.otf') format('opentype');
+}
+
+html,
+body,
+canvas {
+  font-family: 'Fira Code', 'monospace';
+  font-size: 10pt;
+  margin: 0;
+  padding: 0;
+  color: antiquewhite;
+  background-color: black;
+}
+
+hr {
+  color: antiquewhite;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+
+/* Flex root */
+.flex-container {
+  display: flex;
+  padding: 10px;
+}
+
+
+/* Everything but the bars, baybee */
+#center-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 0;
+}
+
+/* Game console */
+#game {
+  flex-basis: 0;
+  border: rgba(250, 235, 215, 0.5) 1px solid;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Important info */
+#bottom-panel {
+  margin-top: 10px;
+  border: rgba(250, 235, 215, 0.5) 1px solid;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 200px;
+}
+
+/* Modal info */
+#overlay {
+  position: absolute;
+  flex-basis: 0;
+  visibility: hidden;
+}
+
+/* Aforementioned sidebars (baybeeeee) */
+.spacer {
+  flex-basis: 0;  
+  width: 300px;
+  height: 620px;
+  margin: 0 10px 30px auto;
+}

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": [
+      "dom",
+      "es6",
+      "es2017"
+    ],
+    "types": ["reflect-metadata"],
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "build",
+    "strict": true,
+    "strictNullChecks": false,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
+    "typeRoots": ["./src/types.ts"]
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "backup",
+    "tests",
+    "webpack.config.js"
+  ]
+}
