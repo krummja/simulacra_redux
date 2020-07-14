@@ -17,6 +17,7 @@ const SCREEN = {
   HEIGHT: 48
 }
 
+// Constants for the bottom UI terminal
 const PANEL = {
   WIDTH: 100,
   height: 16
@@ -124,6 +125,14 @@ function main()
 }
 
 
+/**
+ * Makes a new [ROT.Display] object to render to.
+ * 
+ * @param width   Terminal width in tiles.
+ * @param height  Terminal height in tiles.
+ * @param props   Configuration properties.
+ * @returns terminal 
+ */
 function _makeTerminal(width: number, height: number, props: TerminalProps): [ROT.Display, HTMLElement]
 {
   const display = new ROT.Display({width, height, ...props});
@@ -135,4 +144,5 @@ function _makeTerminal(width: number, height: number, props: TerminalProps): [RO
 }
 
 
+// Let 'er rip!
 window.onload = () => { main(); }
