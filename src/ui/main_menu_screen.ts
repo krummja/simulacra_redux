@@ -1,12 +1,15 @@
 import * as ROT from 'rot-js';
 
 import { BaseScreen } from './screen';
+import { GameScreen } from './game_screen';
 import { Input } from './input';
+import { Content } from '../engine';
+
 
 
 export class MainMenuScreen extends BaseScreen<Input>
 {
-  // content: Content
+  content: Content
   // storage: Storage
 
   handleInput(input: Input): boolean
@@ -21,7 +24,7 @@ export class MainMenuScreen extends BaseScreen<Input>
       
       case Input.ok:
         // ! On pressing 'enter' (i.e. 'ok') this loads the GameScreen with content.
-        // this.ui.push(GameScreen.town(storage, content, save))
+        this.ui.push(GameScreen.town(this.content))
         return true;
     }
 
@@ -48,8 +51,9 @@ export class MainMenuScreen extends BaseScreen<Input>
 
   }
 
-  // constructor(content: Content)
-  // {
-  //   this.content = content;
-  // }
+  constructor(content: Content)
+  {
+    super()
+    this.content = content;
+  }
 }

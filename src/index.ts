@@ -6,6 +6,8 @@ import { Entity, Actor } from './engine';
 import { createContent } from './content';
 import { TerminalProps } from './types';
 import { UserInterface, Input, BaseScreen } from './ui';
+import { MainMenuScreen } from './ui/main_menu_screen';
+import { Content } from './engine';
 
 
 // Constants for the game terminal
@@ -21,49 +23,7 @@ const PANEL = {
 }
 
 
-// The [subject] of the [controller] object.
-let subject: Entity;
 let _ui: UserInterface<Input>;
-
-/**
- * Draws the primary game view.
- * 
- * @param display A [ROT.Display] instance.
- * @param target  The current [subject] of the [controller] usually.
- */
-// function drawPrimary(display: ROT.Display, target: Entity): void
-// {
-//   let screenWidth = SCREEN.WIDTH;
-//   let screenHeight = SCREEN.HEIGHT;
-
-//   display.clear();
-// }
-
-
-/**
- * Draws the UI [Panel] underneath the primary UI [Panel].
- * 
- * @param display A [ROT.Display] instance.
- * @param target  The current [subject] of the [controller] usually.
- */
-// function drawBottomPanel(display: ROT.Display, target: Entity)
-// {
-//   display.clear();
-//   drawMessageLog();
-// }
-
-
-/**
- * Compose all draw functions above to render all at once.
- * 
- * @param primary The [ROT.Display] that will act as the primary game view terminal.
- * @param target  The same [target] as tracked by [primary].
- */
-// function draw(primary: ROT.Display, bottom: ROT.Display, target: Entity): void
-// {
-//   drawPrimary(primary, target);
-//   drawBottomPanel(bottom, target);
-// }
 
 
 /**
@@ -110,6 +70,9 @@ function main()
   // Set _ui to a new UserInterface instance which is wrapped around an Input.
   // It takes in a terminal and renders to it.
   _ui = new UserInterface<Input>(primary[0]);
+
+
+  _ui.push(new MainMenuScreen(content));
 
   // Capture key input.
   // window.onkeydown = Input.onKeyDown;

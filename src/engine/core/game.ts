@@ -24,9 +24,9 @@ export class Game
 
   // Set up the map and instantiate the player's character.
   // Yield to FOV calculations
-  generate()
+  generate(): Iterable<string>
   {
-
+    return;
   }
 
   // Updates the game's internal logic.
@@ -56,7 +56,7 @@ export class Game
  * Defines the actual content for the game: entity types, items, etc.
  * that collectively define the player experience.
  */
-abstract class Content
+export abstract class Content
 {
   abstract buildStage(): Iterable<string>;
 
