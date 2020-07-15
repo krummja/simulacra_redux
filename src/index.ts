@@ -2,13 +2,10 @@ import 'reflect-metadata';
 import * as ROT from 'rot-js';
 
 import { Debug } from './debug';
-import { Entity, Actor, Input } from './engine';
+import { Entity, Actor } from './engine';
 import { createContent } from './content';
 import { TerminalProps } from './types';
-
-// ! TEST MODULES //////////////////////////////////////////////////////////////////////////////////////////////////////
-import { Panel, UIModule, BasicMenu } from './ui';
-// ! ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import { UserInterface, Input, BaseScreen } from './ui';
 
 
 // Constants for the game terminal
@@ -26,7 +23,7 @@ const PANEL = {
 
 // The [subject] of the [controller] object.
 let subject: Entity;
-
+let _ui: UserInterface<Input>;
 
 /**
  * Draws the primary game view.
@@ -34,19 +31,13 @@ let subject: Entity;
  * @param display A [ROT.Display] instance.
  * @param target  The current [subject] of the [controller] usually.
  */
-function drawPrimary(display: ROT.Display, target: Entity): void
-{
-  let screenWidth = SCREEN.WIDTH;
-  let screenHeight = SCREEN.HEIGHT;
+// function drawPrimary(display: ROT.Display, target: Entity): void
+// {
+//   let screenWidth = SCREEN.WIDTH;
+//   let screenHeight = SCREEN.HEIGHT;
 
-  display.clear();
-
-  // ! TEST MODULES ////////////////////////////////////////////////////////////////////////////////////////////////////
-  let testModule: BasicMenu = new BasicMenu(display, "Test Menu");
-  let testPanel: Panel = new Panel(display, 0, 0, SCREEN.WIDTH, SCREEN.HEIGHT, testModule);
-  testPanel.draw();
-  // ! /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-}
+//   display.clear();
+// }
 
 
 /**
@@ -55,12 +46,11 @@ function drawPrimary(display: ROT.Display, target: Entity): void
  * @param display A [ROT.Display] instance.
  * @param target  The current [subject] of the [controller] usually.
  */
-function drawBottomPanel(display: ROT.Display, target: Entity)
-{
-  display.clear();
-
-  // drawMessageLog();
-}
+// function drawBottomPanel(display: ROT.Display, target: Entity)
+// {
+//   display.clear();
+//   drawMessageLog();
+// }
 
 
 /**
@@ -69,11 +59,11 @@ function drawBottomPanel(display: ROT.Display, target: Entity)
  * @param primary The [ROT.Display] that will act as the primary game view terminal.
  * @param target  The same [target] as tracked by [primary].
  */
-function draw(primary: ROT.Display, bottom: ROT.Display, target: Entity): void
-{
-  drawPrimary(primary, target);
-  drawBottomPanel(bottom, target);
-}
+// function draw(primary: ROT.Display, bottom: ROT.Display, target: Entity): void
+// {
+//   drawPrimary(primary, target);
+//   drawBottomPanel(bottom, target);
+// }
 
 
 /**
@@ -117,12 +107,19 @@ function main()
   document.getElementById('game')?.appendChild(primary[1]);
   document.getElementById('bottomPanel')?.appendChild(bottom[1]);
   
+  // Set _ui to a new UserInterface instance which is wrapped around an Input.
+  // It takes in a terminal and renders to it.
+  _ui = new UserInterface<Input>(primary[0]);
+
   // Capture key input.
-  window.onkeydown = Input.onKeyDown;
+  // window.onkeydown = Input.onKeyDown;
 
   // Aaaaand draw!
-  draw(primary[0], bottom[0], subject);
+  // draw(primary[0], bottom[0], subject);
 }
+
+
+
 
 
 /**
@@ -142,6 +139,7 @@ function _makeTerminal(width: number, height: number, props: TerminalProps): [RO
 
   return [display, container];
 }
+
 
 
 // Let 'er rip!
