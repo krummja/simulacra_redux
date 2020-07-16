@@ -1,108 +1,124 @@
-import 'reflect-metadata';
-
 import * as ROT from 'rot-js';
 
-import { createContent } from './content';
-import { Debug } from './debug';
-import { Actor, Content, Entity } from './engine';
-import { TerminalProps } from './types';
-import { BaseScreen, Input, UserInterface, KeyCode } from './ui';
-import { MainMenuScreen } from './ui/main_menu_screen';
 
+export interface TerminalProps {
+  fontFamily       ?: string;
+  fontStyle        ?: string;
+  fontSize         ?: number;
+  spacing          ?: number;
+  forceSquareRatio ?: boolean;
+}
 
-// Constants for the game terminal
-const SCREEN = {
-  WIDTH: 100,
-  HEIGHT: 48
+function assert(value: unknown): asserts value {
+  if (value === undefined) {
+    throw new Error(`value must be defined`);
+  }
 }
 
 
-// Constants for the bottom UI terminal
-const PANEL = {
-  WIDTH: 100,
-  height: 16
+
+export class Input
+{
+  static open = new Input("open");
+  static close = new Input("close");
+  static ok = new Input("ok");
+  static n = new Input("n");
+  static s = new Input("s");
+  static e = new Input("e");
+  static w = new Input("w");
+  
+  name: string;
+  constructor(name: string) { this.name = name; }
 }
 
 
-let ui: UserInterface<Input> = null;
+export abstract class BaseScreen<T>
+{
+  // The [UserInterface] this screen is bound to.
+  get ui() {
+    return this._ui; 
+  }
+  private _ui: UserInterface<T>;
+
+  isTransparent: boolean = false;
+
+  // Binds this screen to [ui].
+  bind(ui: UserInterface<T>): void
+  {
+    assert(this._ui == null);
+    this._ui = ui;
+    console.log(this._ui);
+  }
+
+  // Unbinds this screen from the [ui] that owns it.
+  unbind(): void
+  {
+    assert(this._ui != null);
+    this._ui = null;
+  }
+
+  handleInput(input: T): boolean {return}
+
+  keyDown(keyCode: number): boolean {return}
+
+  keyUp(keyCode: number): boolean {return}
+
+  activate(popped: BaseScreen<T>, result: {}): void {}
+
+  update(): void {}
+
+  render(terminal: ROT.Display): void {}
+}
 
 
-/**
- * The main game process. 
- * 
- * Initializes game content and terminals. 
- * Terminals get appended to the DOM. 
- * Also captures keyboard input.
- */
+class UserInterface<T>
+{
+  screens: BaseScreen<T>[] = [];
+
+  constructor(public terminal: ROT.Display){}
+
+  push(screen: BaseScreen<T>)
+  {
+    screen.bind(this);
+    this.screens.push(screen);
+  }
+}
+
+
+class TestScreen extends BaseScreen<Input>
+{
+  constructor(){
+    super();
+  }
+}
+
+
+
 export function main()
 {
-  // Fire up the game content.
-  let content = createContent();
-
-  // Set up the primary terminal.
   let primary: [ROT.Display, HTMLElement] = _makeTerminal(
-    SCREEN.WIDTH, 
-    SCREEN.HEIGHT, 
-    {
-      fontFamily: 'simulacra',
-      fontStyle: 'normal',
-      fontSize: 13,
-      spacing: 1.0,
-      forceSquareRatio: true
-    }
-  );
-
-  // Set up the bottom terminal.
-  let bottom: [ROT.Display, HTMLElement] = _makeTerminal(
-    10, 10,
-    {
+    100, 48, {
       fontFamily: 'simulacra',
       fontStyle: 'normal',
       fontSize: 13,
       spacing: 1.0,
       forceSquareRatio: true   
     }
-  )
-  
-  // Append to DOM.
-  document.getElementById('game')?.appendChild(primary[1]);
-  document.getElementById('bottomPanel')?.appendChild(bottom[1]);
-  
-  // Set ui to a new UserInterface instance which is wrapped around an Input.
-  // It takes in a terminal and renders to it.
-  ui = new UserInterface<Input>(primary[0]);
-  ui.push(new MainMenuScreen(content));
-  console.log(ui.screens.entries());
-  
-  ui.keyPress.bind(Input.open, KeyCode.enter);
-  ui.keyPress.bind(Input.close, KeyCode.esc);
-  
-  ui.keyPress.bind(Input.n, KeyCode.n);
-  ui.keyPress.bind(Input.s, KeyCode.s);
-  ui.keyPress.bind(Input.e, KeyCode.e);
-  ui.keyPress.bind(Input.w, KeyCode.w);
+  );
 
-  window.onkeydown = ui.keyDown;
-  window.onkeyup = ui.keyUp;
-    
-  // ui.handlingInput = true;
+  document.getElementById('game')?.appendChild(primary[1]);
+
+  let ui = new UserInterface<Input>(primary[0]);
+  ui.push(new TestScreen() as BaseScreen<Input>);  
+
+  primary[0].drawText(10, 10, "Hello world!");
 }
 
 
-/**
- * Makes a new [ROT.Display] object to render to.
- * 
- * @param width   Terminal width in tiles.
- * @param height  Terminal height in tiles.
- * @param props   Configuration properties.
- * @returns terminal 
- */
 function _makeTerminal(width: number, height: number, props: TerminalProps): [ROT.Display, HTMLElement]
 {
   const display = new ROT.Display({width, height, ...props});
   const container = display.getContainer();
-
-  if (Debug.enabled) {}
 
   return [display, container];
 }
