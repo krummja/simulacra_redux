@@ -58,7 +58,9 @@ export class Game
  */
 export abstract class Content
 {
-  abstract buildStage(): Iterable<string>;
+  // abstract buildStage(): Iterable<string>;
+
+  abstract doNothing(): void;
 
   // abstract createPlayer()
 }

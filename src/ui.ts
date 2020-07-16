@@ -6,3 +6,4 @@ export * from './ui/module/basicmenu';
 export * from './ui/interface';
 export * from './ui/screen';
 export * from './ui/input';
+export * from './ui/key_bindings';

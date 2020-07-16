@@ -15,29 +15,49 @@ import { KeyCode, KeyBindings, KeyBinding } from './key_bindings';
  */
 export class UserInterface<T>
 {
-  keyPress = new KeyBindings<T>();
+  keyPress: KeyBindings<T>;
 
   // The current set of screens bound to this [UserInterface].
-  private _screens: Array<BaseScreen<T>> = [];
+  screens: BaseScreen<T>[];
+
+  // get screens() { return this.screens; }
+  // private screens: Array<BaseScreen<T>> = new Array<BaseScreen<T>>();
   
   // The terminal this [UserInterface] is set to render to.
   set terminal(terminal: ROT.Display) { this._terminal = terminal; }
   private _terminal: ROT.Display;
 
+  // get handlingInput() { return this._handlingInput; }
+  // set handlingInput(v: boolean) { 
+  //   if (v === this._handlingInput) return;
+  //   if (v) {
+  //     window.onkeydown = this.keyDown;
+  //     window.onkeyup = this.keyUp;
+  //   }
+  // }
+  // private _handlingInput: boolean;
+
+  constructor(terminal: ROT.Display) 
+  { 
+    this._terminal = terminal;
+    this.screens = [];
+    this.keyPress = new KeyBindings<T>();
+  }
+
   goTo(screen: BaseScreen<T>)
   {
-    let old = this._screens.pop();
+    let old = this.screens.pop();
     old.unbind();
 
     screen.bind(this);
-    this._screens.push(screen);
+    this.screens.push(screen);
     this.render();
   }
 
   refresh()
   {
-    for (let i = 0; i < this._screens.length; i++) {
-      this._screens[i].update();
+    for (let i = 0; i < this.screens.length; i++) {
+      this.screens[i].update();
     }
   }
 
@@ -50,15 +70,16 @@ export class UserInterface<T>
     this._terminal.clear();
 
     // Then, for every screen bound to this terminal, draw that screen to the terminal.
-    for (let i = 0; i < this._screens.length; i++) {
-      this._screens[i].render(this._terminal);
+    for (let i = 0; i < this.screens.length; i++) {
+      this.screens[i].render(this._terminal);
     }
   }
 
   push(screen: BaseScreen<T>)
   {
     screen.bind(this);
-    this._screens.push(screen);
+    this.screens.push(screen);
+    console.log(this.screens);
     this.render()
   }
 
@@ -73,7 +94,7 @@ export class UserInterface<T>
     let input = this.keyPress.find(keyCode);
 
     // Get reference to the last screen in the array.
-    let screen = this._screens[this._screens.length - 1];
+    let screen = this.screens[this.screens.length - 1];
     
     if (input != null) {
       event.preventDefault();
@@ -94,15 +115,10 @@ export class UserInterface<T>
     let keyCode = event.keyCode;
 
     // Get reference to the last screen in the array.
-    let screen = this._screens[this._screens.length - 1];
+    let screen = this.screens[this.screens.length - 1];
     
-    if (screen.keyUp(keyCode, event.shiftKey, event.altKey)) {
+    if (screen.keyUp(keyCode)) {
       event.preventDefault();
     }
-  }
-
-  constructor(terminal: ROT.Display) 
-  { 
-    this._terminal = terminal;
   }
 }

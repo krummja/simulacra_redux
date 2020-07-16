@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Game = void 0;
+exports.Content = exports.Game = void 0;
 /**
  * Root class for the game engine. All game state is contained in this.
  */
@@ -13,6 +13,7 @@ class Game {
     // Set up the map and instantiate the player's character.
     // Yield to FOV calculations
     generate() {
+        return;
     }
     // Updates the game's internal logic.
     update() {
@@ -34,6 +35,7 @@ exports.Game = Game;
  */
 class Content {
 }
+exports.Content = Content;
 /**
  * Each call to [Game.update()] will return a [GameResult] object that tells
  * the UI what happened during that update and what it needs to do.

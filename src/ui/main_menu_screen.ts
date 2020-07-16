@@ -1,29 +1,34 @@
 import * as ROT from 'rot-js';
 
-import { BaseScreen } from './screen';
+import { Content } from '../engine';
 import { GameScreen } from './game_screen';
 import { Input } from './input';
-import { Content } from '../engine';
-
+import { BaseScreen } from './screen';
 
 
 export class MainMenuScreen extends BaseScreen<Input>
 {
   content: Content
-  // storage: Storage
+
+  constructor(content: Content)
+  {
+    super()
+    this.content = content;
+  }
 
   handleInput(input: Input): boolean
   {
     switch (input) {
       case Input.n:
-        this._changeSelection(-1);
+        console.log("key Input.n pressed in Main Menu!");
+        // this._changeSelection(-1);
         return true;
       case Input.s:
-        this._changeSelection(1);
+        console.log("key Input.s pressed in Main Menu!");
+        // this._changeSelection(1);
         return true;
       
       case Input.ok:
-        // ! On pressing 'enter' (i.e. 'ok') this loads the GameScreen with content.
         this.ui.push(GameScreen.town(this.content))
         return true;
     }
@@ -31,7 +36,13 @@ export class MainMenuScreen extends BaseScreen<Input>
     return false;
   }
 
-  keyDown(keyCode: number, shift?: boolean, alt?: boolean): boolean
+  
+  keyDown(keyCode: number): boolean
+  {
+    return false;
+  }
+
+  keyUp(keyCode: number): boolean
   {
     return false;
   }
@@ -41,19 +52,18 @@ export class MainMenuScreen extends BaseScreen<Input>
 
   }
 
+  update()
+  {
+    
+  }
+
   render(terminal: ROT.Display): void
   {
-
+    terminal.drawText(10, 18, 'Test text!');
   }
 
   private _changeSelection(offset: number): void
   {
 
-  }
-
-  constructor(content: Content)
-  {
-    super()
-    this.content = content;
   }
 }

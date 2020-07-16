@@ -11,11 +11,15 @@ export class KeyBinding
 
 export class KeyBindings<T>
 {
+  get bindings() { return this._bindings; }
+  set bindings(v: Map<KeyBinding, T>) { this._bindings = v; }
   private _bindings = new Map<KeyBinding, T>();
 
-  bind(input: T, keyCode: KeyBinding): void
+  constructor(){}
+
+  bind(input: T, keyCode: number): void
   {
-    this._bindings.set(keyCode, input);
+    this.bindings.set(new KeyBinding(keyCode), input);
   }
 
   find (keyCode: number): T
@@ -23,7 +27,7 @@ export class KeyBindings<T>
     let key: {[keyCode in keyof KeyBinding]: KeyBinding[keyCode]};
     let value: T;
 
-    for ([key, value] of this._bindings.entries()) {
+    for ([key, value] of this.bindings.entries()) {
       if (key.charCode === keyCode) {
         return value;
       }
