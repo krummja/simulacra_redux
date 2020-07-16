@@ -71,17 +71,13 @@ function main() {
     // It takes in a terminal and renders to it.
     ui = new ui_1.UserInterface(primary[0]);
     ui.push(new main_menu_screen_1.MainMenuScreen(content));
-    console.log(ui.screens.entries());
     ui.keyPress.bind(ui_1.Input.open, ui_1.KeyCode.enter);
     ui.keyPress.bind(ui_1.Input.close, ui_1.KeyCode.esc);
     ui.keyPress.bind(ui_1.Input.n, ui_1.KeyCode.n);
     ui.keyPress.bind(ui_1.Input.s, ui_1.KeyCode.s);
     ui.keyPress.bind(ui_1.Input.e, ui_1.KeyCode.e);
     ui.keyPress.bind(ui_1.Input.w, ui_1.KeyCode.w);
-    window.onkeydown = ui.keyDown;
-    window.onkeyup = ui.keyUp;
-    ui.render();
-    // ui.handlingInput = true;
+    ui.handlingInput = true;
 }
 exports.main = main;
 /**

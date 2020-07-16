@@ -13,24 +13,23 @@ const key_bindings_1 = require("./key_bindings");
  * which screens can use to map raw keypresses to something higher-level.
  */
 class UserInterface {
-    // get handlingInput() { return this._handlingInput; }
-    // set handlingInput(v: boolean) { 
-    //   if (v === this._handlingInput) return;
-    //   if (v) {
-    //     window.onkeydown = this.keyDown;
-    //     window.onkeyup = this.keyUp;
-    //   }
-    // }
-    // private _handlingInput: boolean;
     constructor(terminal) {
-        this._terminal = terminal;
-        this.screens = [];
+        this.terminal = terminal;
         this.keyPress = new key_bindings_1.KeyBindings();
+        // The current set of screens bound to this [UserInterface].
+        this.screens = [];
     }
     // get screens() { return this.screens; }
     // private screens: Array<BaseScreen<T>> = new Array<BaseScreen<T>>();
-    // The terminal this [UserInterface] is set to render to.
-    set terminal(terminal) { this._terminal = terminal; }
+    get handlingInput() { return this._handlingInput; }
+    set handlingInput(v) {
+        if (v === this._handlingInput)
+            return;
+        if (v) {
+            document.body.addEventListener("keydown", e => this.keyDown(e));
+            document.body.addEventListener("keyup", e => this.keyUp(e));
+        }
+    }
     goTo(screen) {
         let old = this.screens.pop();
         old.unbind();
@@ -45,19 +44,18 @@ class UserInterface {
     }
     render() {
         // If the UI isn't bound to a terminal, do nothing.
-        if (this._terminal == null)
+        if (this.terminal == null)
             return;
         // Clear the terminal each frame.
-        this._terminal.clear();
+        this.terminal.clear();
         // Then, for every screen bound to this terminal, draw that screen to the terminal.
         for (let i = 0; i < this.screens.length; i++) {
-            this.screens[i].render(this._terminal);
+            this.screens[i].render(this.terminal);
         }
     }
     push(screen) {
         screen.bind(this);
         this.screens.push(screen);
-        console.log(this.screens);
         this.render();
     }
     /**

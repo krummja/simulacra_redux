@@ -20,12 +20,10 @@ export class MainMenuScreen extends BaseScreen<Input>
   {
     switch (input) {
       case Input.n:
-        console.log("key Input.n pressed in Main Menu!");
-        // this._changeSelection(-1);
+        this._changeSelection(-1);
         return true;
       case Input.s:
-        console.log("key Input.s pressed in Main Menu!");
-        // this._changeSelection(1);
+        this._changeSelection(1);
         return true;
       
       case Input.ok:

@@ -62,7 +62,6 @@ export abstract class BaseScreen<T>
   {
     assert(this._ui == null);
     this._ui = ui;
-    console.log(this._ui);
   }
 
   // Unbinds this screen from the [ui] that owns it.

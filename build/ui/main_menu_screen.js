@@ -12,12 +12,10 @@ class MainMenuScreen extends screen_1.BaseScreen {
     handleInput(input) {
         switch (input) {
             case input_1.Input.n:
-                console.log("key Input.n pressed in Main Menu!");
-                // this._changeSelection(-1);
+                this._changeSelection(-1);
                 return true;
             case input_1.Input.s:
-                console.log("key Input.s pressed in Main Menu!");
-                // this._changeSelection(1);
+                this._changeSelection(1);
                 return true;
             case input_1.Input.ok:
                 this.ui.push(game_screen_1.GameScreen.town(this.content));

@@ -15,34 +15,25 @@ import { KeyCode, KeyBindings, KeyBinding } from './key_bindings';
  */
 export class UserInterface<T>
 {
-  keyPress: KeyBindings<T>;
+  keyPress: KeyBindings<T> = new KeyBindings<T>();
 
   // The current set of screens bound to this [UserInterface].
-  screens: BaseScreen<T>[];
+  screens: BaseScreen<T>[] = [];
 
   // get screens() { return this.screens; }
   // private screens: Array<BaseScreen<T>> = new Array<BaseScreen<T>>();
-  
-  // The terminal this [UserInterface] is set to render to.
-  set terminal(terminal: ROT.Display) { this._terminal = terminal; }
-  private _terminal: ROT.Display;
 
-  // get handlingInput() { return this._handlingInput; }
-  // set handlingInput(v: boolean) { 
-  //   if (v === this._handlingInput) return;
-  //   if (v) {
-  //     window.onkeydown = this.keyDown;
-  //     window.onkeyup = this.keyUp;
-  //   }
-  // }
-  // private _handlingInput: boolean;
-
-  constructor(terminal: ROT.Display) 
-  { 
-    this._terminal = terminal;
-    this.screens = [];
-    this.keyPress = new KeyBindings<T>();
+  get handlingInput() { return this._handlingInput; }
+  set handlingInput(v: boolean) { 
+    if (v === this._handlingInput) return;
+    if (v) {
+      document.body.addEventListener("keydown", e => this.keyDown(e));
+      document.body.addEventListener("keyup", e => this.keyUp(e));
+    }
   }
+  private _handlingInput: boolean;
+
+  constructor(public terminal: ROT.Display) {}
 
   goTo(screen: BaseScreen<T>)
   {
@@ -64,14 +55,14 @@ export class UserInterface<T>
   render(): void
   {
     // If the UI isn't bound to a terminal, do nothing.
-    if (this._terminal == null) return;
+    if (this.terminal == null) return;
 
     // Clear the terminal each frame.
-    this._terminal.clear();
+    this.terminal.clear();
 
     // Then, for every screen bound to this terminal, draw that screen to the terminal.
     for (let i = 0; i < this.screens.length; i++) {
-      this.screens[i].render(this._terminal);
+      this.screens[i].render(this.terminal);
     }
   }
 
@@ -79,7 +70,6 @@ export class UserInterface<T>
   {
     screen.bind(this);
     this.screens.push(screen);
-    console.log(this.screens);
     this.render()
   }
 

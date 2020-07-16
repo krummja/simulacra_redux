@@ -72,7 +72,6 @@ export function main()
   // It takes in a terminal and renders to it.
   ui = new UserInterface<Input>(primary[0]);
   ui.push(new MainMenuScreen(content));
-  console.log(ui.screens.entries());
   
   ui.keyPress.bind(Input.open, KeyCode.enter);
   ui.keyPress.bind(Input.close, KeyCode.esc);
@@ -81,11 +80,8 @@ export function main()
   ui.keyPress.bind(Input.s, KeyCode.s);
   ui.keyPress.bind(Input.e, KeyCode.e);
   ui.keyPress.bind(Input.w, KeyCode.w);
-
-  window.onkeydown = ui.keyDown;
-  window.onkeyup = ui.keyUp;
     
-  // ui.handlingInput = true;
+  ui.handlingInput = true;
 }
 
 
