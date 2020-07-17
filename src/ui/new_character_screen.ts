@@ -68,25 +68,38 @@ export class NewCharacterScreen extends BaseScreen<Input>
   {
     let display = terminal['terminal'];
 
-    let panel = new Panel(display, 0, 0, 40, 10)._frame();
-    let box = new Panel(display, 2, 5, 36, 3)._box();
+    let panel = new Panel(display, 0, 0, 40, 10, false)
+    let box = new Panel(display, 2, 5, 24, 3)._box();
+    
+    if (this._field == _Field.NAME) {
+      panel._focused_frame();
+      display.drawText(2, 0, "%c{#fc5a03}" + "︱Name︱");
+    } else {
+      panel._frame();
+      display.drawText(2, 0, "︱Name︱");
+    }
 
     display.drawText(2, 2, "A new dawn rises on a lone");
     display.drawText(2, 3, "adventurer named...");
 
     if (this._name.length > 0) {
-      display.drawText(3, 6, this._name);
+      if (this._field == _Field.NAME) {
+        display.drawText(4, 6, "%c{#fc5a03}" + this._name);
+        display.drawText(30, 6, `${this._name.length}/${this._maxNameLength}`);
+      } else {
+        display.drawText(4, 6, this._name);
+      }
 
       if (this._field == _Field.NAME) {
-        display.drawText(3 + this._name.length, 6, " ");
+        display.drawText(4 + this._name.length, 6, " ");
       }
     } 
     
     else {
       if (this._field == _Field.NAME) {
-        display.drawText(3, 6, "%c{#cc66ff}" + this._defaultName);
+        display.drawText(4, 6, "%c{#fc5a03}" + this._defaultName);
       } else {
-        display.drawText(3, 6, this._defaultName);
+        display.drawText(4, 6, this._defaultName);
       }
     }
   }
@@ -96,16 +109,13 @@ export class NewCharacterScreen extends BaseScreen<Input>
     let display = terminal['terminal'];
 
     let panel = new Panel(display, 0, 11, 40, 29, false);
-    panel._frame();
-    display.drawText(2, 11, "︱Background︱");
-
-    // TODO: Gotta fix this... currently does not update the focused state. :(
+  
     if (this._field == _Field.BACKGROUND) {
-      console.log("Background field focused");
-      panel.focused = true;
-
+      panel._focused_frame();
+      display.drawText(2, 11, "%c{#fc5a03}" + "︱Background︱");
     } else {
-      console.log("Background field not in focus.");
+      panel._frame();
+      display.drawText(2, 11, "︱Background︱");
     }
   }
 
@@ -179,6 +189,8 @@ export class NewCharacterScreen extends BaseScreen<Input>
   private _changeField(offset: number): void 
   {
     this._field = mod((this._field + offset + _Field.count), _Field.count);
+    this.ui.dirty();
+    this.ui.refresh();
   }
   
   private _appendToName(text: string): void 

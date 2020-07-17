@@ -49,39 +49,49 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     _renderName(terminal) {
         let display = terminal['terminal'];
-        let panel = new panel_1.Panel(display, 0, 0, 40, 10)._frame();
-        let box = new panel_1.Panel(display, 2, 5, 36, 3)._box();
+        let panel = new panel_1.Panel(display, 0, 0, 40, 10, false);
+        let box = new panel_1.Panel(display, 2, 5, 24, 3)._box();
+        if (this._field == _Field.NAME) {
+            panel._focused_frame();
+            display.drawText(2, 0, "%c{#fc5a03}" + "︱Name︱");
+        }
+        else {
+            panel._frame();
+            display.drawText(2, 0, "︱Name︱");
+        }
         display.drawText(2, 2, "A new dawn rises on a lone");
         display.drawText(2, 3, "adventurer named...");
         if (this._name.length > 0) {
-            display.drawText(3, 6, this._name);
             if (this._field == _Field.NAME) {
-                display.drawText(3 + this._name.length, 6, " ");
+                display.drawText(4, 6, "%c{#fc5a03}" + this._name);
+                display.drawText(30, 6, `${this._name.length}/${this._maxNameLength}`);
+            }
+            else {
+                display.drawText(4, 6, this._name);
+            }
+            if (this._field == _Field.NAME) {
+                display.drawText(4 + this._name.length, 6, " ");
             }
         }
         else {
             if (this._field == _Field.NAME) {
-                display.drawText(3, 6, "%c{#cc66ff}" + this._defaultName);
+                display.drawText(4, 6, "%c{#fc5a03}" + this._defaultName);
             }
             else {
-                display.drawText(3, 6, this._defaultName);
+                display.drawText(4, 6, this._defaultName);
             }
         }
     }
     _renderBackground(terminal) {
         let display = terminal['terminal'];
         let panel = new panel_1.Panel(display, 0, 11, 40, 29, false);
-        panel._frame();
-        display.drawText(2, 11, "︱Background︱");
         if (this._field == _Field.BACKGROUND) {
-            console.log("Background field focused");
-            panel.focused = true;
-            console.log(panel.focused);
-            this.ui.dirty();
-            this.ui.refresh();
+            panel._focused_frame();
+            display.drawText(2, 11, "%c{#fc5a03}" + "︱Background︱");
         }
         else {
-            console.log("Background field not in focus.");
+            panel._frame();
+            display.drawText(2, 11, "︱Background︱");
         }
     }
     _renderClass(terminal) {
@@ -140,6 +150,8 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     _changeField(offset) {
         this._field = mod_1.mod((this._field + offset + _Field.count), _Field.count);
+        this.ui.dirty();
+        this.ui.refresh();
     }
     _appendToName(text) {
         this._name += text;

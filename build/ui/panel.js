@@ -189,18 +189,18 @@ class Panel {
     _frame() {
         let w = this.width -= 1;
         let h = this.height -= 1;
-        if (this.focused) {
-            this._horizontal(this.x, this.y, w, exports.FOCUSED_FRAME.T_LEFT, exports.FOCUSED_FRAME.T_RIGHT, exports.FOCUSED_FRAME.HORIZONTAL);
-            this._vertical(this.x, this.y, h, exports.FOCUSED_FRAME.VERTICAL);
-            this._vertical(this.x + w, this.y, h, exports.FOCUSED_FRAME.VERTICAL);
-            this._horizontal(this.x, this.y + h, w, exports.FOCUSED_FRAME.B_LEFT, exports.FOCUSED_FRAME.B_RIGHT, exports.FOCUSED_FRAME.HORIZONTAL);
-        }
-        else {
-            this._horizontal(this.x, this.y, w, exports.FRAME.T_LEFT, exports.FRAME.T_RIGHT, exports.FRAME.HORIZONTAL);
-            this._vertical(this.x, this.y, h, exports.FRAME.VERTICAL);
-            this._vertical(this.x + w, this.y, h, exports.FRAME.VERTICAL);
-            this._horizontal(this.x, this.y + h, w, exports.FRAME.B_LEFT, exports.FRAME.B_RIGHT, exports.FRAME.HORIZONTAL);
-        }
+        this._horizontal(this.x, this.y, w, exports.FRAME.T_LEFT, exports.FRAME.T_RIGHT, exports.FRAME.HORIZONTAL);
+        this._vertical(this.x, this.y, h, exports.FRAME.VERTICAL);
+        this._vertical(this.x + w, this.y, h, exports.FRAME.VERTICAL);
+        this._horizontal(this.x, this.y + h, w, exports.FRAME.B_LEFT, exports.FRAME.B_RIGHT, exports.FRAME.HORIZONTAL);
+    }
+    _focused_frame() {
+        let w = this.width -= 1;
+        let h = this.height -= 1;
+        this._horizontal(this.x, this.y, w, exports.FOCUSED_FRAME.T_LEFT, exports.FOCUSED_FRAME.T_RIGHT, exports.FOCUSED_FRAME.HORIZONTAL);
+        this._vertical(this.x, this.y, h, exports.FOCUSED_FRAME.VERTICAL);
+        this._vertical(this.x + w, this.y, h, exports.FOCUSED_FRAME.VERTICAL);
+        this._horizontal(this.x, this.y + h, w, exports.FOCUSED_FRAME.B_LEFT, exports.FOCUSED_FRAME.B_RIGHT, exports.FOCUSED_FRAME.HORIZONTAL);
     }
     _box() {
         let w = this.width -= 1;
