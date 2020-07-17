@@ -1,6 +1,7 @@
 import * as ROT from 'rot-js';
 
 import { Actor, Content, Game } from '../engine';
+import { Terminal } from '../main';
 import { Input } from './input';
 import { StagePanel } from './panel/stagepanel';
 import { BaseScreen } from './screen';
@@ -49,8 +50,9 @@ export class GameScreen extends BaseScreen<Input>
 
   }
 
-  render(terminal: ROT.Display): void
+  render(terminal: Terminal): void
   {
-    terminal.clear();
+    let display = terminal['terminal']
+    display.clear();
   }
 }

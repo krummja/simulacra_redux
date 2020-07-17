@@ -1,6 +1,7 @@
 import * as ROT from 'rot-js';
 import { BaseScreen } from './screen';
 import { KeyCode, KeyBindings, KeyBinding } from './key_bindings';
+import { Terminal } from '../main';
 
 
 /**
@@ -15,10 +16,14 @@ import { KeyCode, KeyBindings, KeyBinding } from './key_bindings';
  */
 export class UserInterface<T>
 {
+  display: ROT.Display;
+
   keyPress: KeyBindings<T> = new KeyBindings<T>();
 
   // The current set of screens bound to this [UserInterface].
   screens: BaseScreen<T>[] = [];
+
+  private _dirty: boolean = true;
 
   // get screens() { return this.screens; }
   // private screens: Array<BaseScreen<T>> = new Array<BaseScreen<T>>();
@@ -33,7 +38,14 @@ export class UserInterface<T>
   }
   private _handlingInput: boolean;
 
-  constructor(public terminal: ROT.Display) {}
+  constructor(public terminal: Terminal) {
+    this.display = terminal['terminal'];
+  }
+
+  dirty(): void
+  {
+    this._dirty = true;
+  }
 
   goTo(screen: BaseScreen<T>)
   {
@@ -50,6 +62,7 @@ export class UserInterface<T>
     for (let i = 0; i < this.screens.length; i++) {
       this.screens[i].update();
     }
+    if (this._dirty) this.render();
   }
 
   render(): void
@@ -58,7 +71,7 @@ export class UserInterface<T>
     if (this.terminal == null) return;
 
     // Clear the terminal each frame.
-    this.terminal.clear();
+    this.display.clear();
 
     // Then, for every screen bound to this terminal, draw that screen to the terminal.
     for (let i = 0; i < this.screens.length; i++) {
@@ -71,6 +84,13 @@ export class UserInterface<T>
     screen.bind(this);
     this.screens.push(screen);
     this.render()
+  }
+
+  pop(result?: {}) {
+    let screen = this.screens.pop();
+    screen.unbind();
+    this.screens[this.screens.length - 1].activate(screen, result);
+    this.render();
   }
 
   /**
@@ -91,7 +111,7 @@ export class UserInterface<T>
       if (screen.handleInput(input)) return;
     }
 
-    if (screen.keyDown(keyCode)) {
+    if (screen.keyDown(keyCode, event.shiftKey, event.altKey)) {
       event.preventDefault();
     }
   }

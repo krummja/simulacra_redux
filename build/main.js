@@ -28,13 +28,13 @@ const ui_1 = require("./ui");
 const main_menu_screen_1 = require("./ui/main_menu_screen");
 // Constants for the game terminal
 const SCREEN = {
-    WIDTH: 100,
+    WIDTH: 200,
     HEIGHT: 48
 };
 // Constants for the bottom UI terminal
 const PANEL = {
-    WIDTH: 100,
-    height: 16
+    WIDTH: 200,
+    HEIGHT: 16
 };
 let ui = null;
 /**
@@ -50,33 +50,31 @@ function main() {
     let content = content_1.createContent();
     // Set up the primary terminal.
     let primary = _makeTerminal(SCREEN.WIDTH, SCREEN.HEIGHT, {
-        fontFamily: 'simulacra',
+        fontFamily: 'Fira Code',
         fontStyle: 'normal',
         fontSize: 13,
-        spacing: 1.0,
-        forceSquareRatio: true
+        spacing: 1.0
     });
     // Set up the bottom terminal.
-    let bottom = _makeTerminal(10, 10, {
-        fontFamily: 'simulacra',
+    let bottom = _makeTerminal(PANEL.WIDTH, PANEL.HEIGHT, {
+        fontFamily: 'Fira Code',
         fontStyle: 'normal',
         fontSize: 13,
-        spacing: 1.0,
-        forceSquareRatio: true
+        spacing: 1.0
     });
     // Append to DOM.
-    (_a = document.getElementById('game')) === null || _a === void 0 ? void 0 : _a.appendChild(primary[1]);
-    (_b = document.getElementById('bottomPanel')) === null || _b === void 0 ? void 0 : _b.appendChild(bottom[1]);
+    (_a = document.getElementById('game')) === null || _a === void 0 ? void 0 : _a.appendChild(primary['container']);
+    (_b = document.getElementById('bottomPanel')) === null || _b === void 0 ? void 0 : _b.appendChild(bottom['container']);
     // Set ui to a new UserInterface instance which is wrapped around an Input.
     // It takes in a terminal and renders to it.
-    ui = new ui_1.UserInterface(primary[0]);
+    ui = new ui_1.UserInterface(primary);
     ui.push(new main_menu_screen_1.MainMenuScreen(content));
-    ui.keyPress.bind(ui_1.Input.open, ui_1.KeyCode.enter);
-    ui.keyPress.bind(ui_1.Input.close, ui_1.KeyCode.esc);
-    ui.keyPress.bind(ui_1.Input.n, ui_1.KeyCode.n);
-    ui.keyPress.bind(ui_1.Input.s, ui_1.KeyCode.s);
-    ui.keyPress.bind(ui_1.Input.e, ui_1.KeyCode.e);
-    ui.keyPress.bind(ui_1.Input.w, ui_1.KeyCode.w);
+    ui.keyPress.bind(ui_1.Input.ok, ui_1.KeyCode.enter);
+    ui.keyPress.bind(ui_1.Input.cancel, ui_1.KeyCode.esc);
+    ui.keyPress.bind(ui_1.Input.n, ui_1.KeyCode.up);
+    ui.keyPress.bind(ui_1.Input.s, ui_1.KeyCode.down);
+    ui.keyPress.bind(ui_1.Input.e, ui_1.KeyCode.right);
+    ui.keyPress.bind(ui_1.Input.w, ui_1.KeyCode.left);
     ui.handlingInput = true;
 }
 exports.main = main;
@@ -89,8 +87,50 @@ exports.main = main;
  * @returns terminal
  */
 function _makeTerminal(width, height, props) {
+    // let tileSet = document.createElement("img");
+    // tileSet.src = "assets/LCD_Tileset.png";
     const display = new ROT.Display(Object.assign({ width, height }, props));
+    // const display = new ROT.Display({
+    //   width: width,
+    //   height: height,
+    //   layout: "tile",
+    //   bg: "transparent",
+    //   tileWidth: 16,
+    //   tileHeight: 16,
+    //   tileSet: tileSet,
+    //   tileMap: {
+    //     " ": [0, 0],
+    //     "@": [1, 0],
+    //     "?": [15, 4],
+    //     "a": [1, 6],
+    //     "b": [2, 6],
+    //     "c": [3, 6],
+    //     "d": [4, 6],
+    //     "e": [5, 6],
+    //     "f": [6, 6],
+    //     "g": [7, 6],
+    //     "h": [8, 6],
+    //     "i": [9, 6],
+    //     "j": [10, 6],
+    //     "k": [11, 6],
+    //     "l": [12, 6],
+    //     "m": [13, 6],
+    //     "n": [14, 6],
+    //     "o": [15, 6],
+    //     "p": [0, 7],
+    //     "q": [1, 7],
+    //     "r": [3, 7],
+    //     "s": [4, 7],
+    //     "t": [5, 7],
+    //     "u": [6, 7],
+    //     "v": [7, 7],
+    //     "w": [8, 7],
+    //     "x": [9, 7],
+    //     "y": [10, 7],
+    //     "z": [11, 7],
+    //   }
+    // });
     const container = display.getContainer();
     if (debug_1.Debug.enabled) { }
-    return [display, container];
+    return { terminal: display, container: container, size: [width, height] };
 }

@@ -18,6 +18,8 @@ class UserInterface {
         this.keyPress = new key_bindings_1.KeyBindings();
         // The current set of screens bound to this [UserInterface].
         this.screens = [];
+        this._dirty = true;
+        this.display = terminal['terminal'];
     }
     // get screens() { return this.screens; }
     // private screens: Array<BaseScreen<T>> = new Array<BaseScreen<T>>();
@@ -30,6 +32,9 @@ class UserInterface {
             document.body.addEventListener("keyup", e => this.keyUp(e));
         }
     }
+    dirty() {
+        this._dirty = true;
+    }
     goTo(screen) {
         let old = this.screens.pop();
         old.unbind();
@@ -41,13 +46,15 @@ class UserInterface {
         for (let i = 0; i < this.screens.length; i++) {
             this.screens[i].update();
         }
+        if (this._dirty)
+            this.render();
     }
     render() {
         // If the UI isn't bound to a terminal, do nothing.
         if (this.terminal == null)
             return;
         // Clear the terminal each frame.
-        this.terminal.clear();
+        this.display.clear();
         // Then, for every screen bound to this terminal, draw that screen to the terminal.
         for (let i = 0; i < this.screens.length; i++) {
             this.screens[i].render(this.terminal);
@@ -56,6 +63,12 @@ class UserInterface {
     push(screen) {
         screen.bind(this);
         this.screens.push(screen);
+        this.render();
+    }
+    pop(result) {
+        let screen = this.screens.pop();
+        screen.unbind();
+        this.screens[this.screens.length - 1].activate(screen, result);
         this.render();
     }
     /**
@@ -72,7 +85,7 @@ class UserInterface {
             if (screen.handleInput(input))
                 return;
         }
-        if (screen.keyDown(keyCode)) {
+        if (screen.keyDown(keyCode, event.shiftKey, event.altKey)) {
             event.preventDefault();
         }
     }

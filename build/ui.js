@@ -13,8 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./ui/panel"), exports);
 __exportStar(require("./ui/glyph"), exports);
 __exportStar(require("./ui/renderOrder"), exports);
-__exportStar(require("./ui/module/module"), exports);
-__exportStar(require("./ui/module/basicmenu"), exports);
 __exportStar(require("./ui/interface"), exports);
 __exportStar(require("./ui/screen"), exports);
 __exportStar(require("./ui/input"), exports);

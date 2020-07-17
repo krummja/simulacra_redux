@@ -22,7 +22,8 @@ class GameScreen extends screen_1.BaseScreen {
     update() {
     }
     render(terminal) {
-        terminal.clear();
+        let display = terminal['terminal'];
+        display.clear();
     }
 }
 exports.GameScreen = GameScreen;

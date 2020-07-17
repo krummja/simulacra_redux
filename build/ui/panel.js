@@ -1,35 +1,72 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Panel = exports.FRAME = void 0;
+exports.Panel = exports.BOX = exports.FRAME = void 0;
 const glyph_1 = require("./glyph");
 exports.FRAME = {
     T_LEFT: new glyph_1.Glyph({
-        character: '◤',
+        character: '╒',
         foreground: '#ffffff',
         background: '#000000'
     }),
     T_RIGHT: new glyph_1.Glyph({
-        character: '◥',
+        character: '╕',
         foreground: '#ffffff',
         background: '#000000'
     }),
     B_LEFT: new glyph_1.Glyph({
-        character: '◣',
+        character: '╘',
         foreground: '#ffffff',
         background: '#000000'
     }),
     B_RIGHT: new glyph_1.Glyph({
-        character: '◢',
+        character: '╛',
         foreground: '#ffffff',
         background: '#000000'
     }),
     VERTICAL: new glyph_1.Glyph({
-        character: '∙',
+        character: ' ',
         foreground: '#ffffff',
         background: '#000000'
     }),
     HORIZONTAL: new glyph_1.Glyph({
-        character: '∙',
+        character: '═',
+        foreground: '#ffffff',
+        background: '#000000'
+    }),
+    EMPTY: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#000000',
+        background: '#000000'
+    })
+};
+exports.BOX = {
+    T_LEFT: new glyph_1.Glyph({
+        character: '┌',
+        foreground: '#ffffff',
+        background: '#000000'
+    }),
+    T_RIGHT: new glyph_1.Glyph({
+        character: '┐',
+        foreground: '#ffffff',
+        background: '#000000'
+    }),
+    B_LEFT: new glyph_1.Glyph({
+        character: '└',
+        foreground: '#ffffff',
+        background: '#000000'
+    }),
+    B_RIGHT: new glyph_1.Glyph({
+        character: '┘',
+        foreground: '#ffffff',
+        background: '#000000'
+    }),
+    VERTICAL: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#ffffff',
+        background: '#000000'
+    }),
+    HORIZONTAL: new glyph_1.Glyph({
+        character: ' ',
         foreground: '#ffffff',
         background: '#000000'
     }),
@@ -47,20 +84,13 @@ exports.FRAME = {
  * It also calls [UIModule.draw()] on each render cycle of the main process.
  */
 class Panel {
-    constructor(display, x, y, width, height, module, focused) {
+    constructor(display, x, y, width, height, focused) {
         this.display = display;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.module = module;
         this.focused = focused;
-    }
-    // The main render function.
-    // The [Panel] frame and then the internal contents are rendered.
-    draw() {
-        this._box(this.x, this.y, this.width, this.height);
-        this._content(this.module);
     }
     // Draw a single [Glyph] at position [x, y].
     _point(x, y, symbol) {
@@ -82,22 +112,21 @@ class Panel {
         }
     }
     // Draw a box from [x,y] to [x+w, y+h].
-    _box(x, y, w, h) {
-        w -= 1;
-        h -= 1;
-        this._horizontal(x, y, w, exports.FRAME.T_LEFT, exports.FRAME.T_RIGHT, exports.FRAME.HORIZONTAL);
-        this._vertical(x, y, h, exports.FRAME.VERTICAL);
-        this._vertical(x + w, y, h, exports.FRAME.VERTICAL);
-        this._horizontal(x, y + h, w, exports.FRAME.B_LEFT, exports.FRAME.B_RIGHT, exports.FRAME.HORIZONTAL);
+    _frame() {
+        let w = this.width -= 1;
+        let h = this.height -= 1;
+        this._horizontal(this.x, this.y, w, exports.FRAME.T_LEFT, exports.FRAME.T_RIGHT, exports.FRAME.HORIZONTAL);
+        this._vertical(this.x, this.y, h, exports.FRAME.VERTICAL);
+        this._vertical(this.x + w, this.y, h, exports.FRAME.VERTICAL);
+        this._horizontal(this.x, this.y + h, w, exports.FRAME.B_LEFT, exports.FRAME.B_RIGHT, exports.FRAME.HORIZONTAL);
     }
-    // The space within the [Panel] that can render substantive content.
-    // The content itself is drawn from a [module] which gets drawn to the internal dimensions of [Panel].
-    _content(module) {
-        let x = this.x + 1;
-        let y = this.y + 1;
-        let w = this.width - 2;
-        let h = this.height - 2;
-        module.draw(x, y, w, h);
+    _box() {
+        let w = this.width -= 1;
+        let h = this.height -= 1;
+        this._horizontal(this.x, this.y, w, exports.BOX.T_LEFT, exports.BOX.T_RIGHT, exports.BOX.HORIZONTAL);
+        this._vertical(this.x, this.y, h, exports.BOX.VERTICAL);
+        this._vertical(this.x + w, this.y, h, exports.BOX.VERTICAL);
+        this._horizontal(this.x, this.y + h, w, exports.BOX.B_LEFT, exports.BOX.B_RIGHT, exports.BOX.HORIZONTAL);
     }
 }
 exports.Panel = Panel;
