@@ -9,7 +9,7 @@ const mod_1 = require("./util/mod");
 class _Field {
 }
 _Field.NAME = 0;
-_Field.RACE = 1;
+_Field.BACKGROUND = 1;
 _Field.CLASS = 2;
 _Field.count = 3;
 class NewCharacterScreen extends screen_1.BaseScreen {
@@ -36,7 +36,7 @@ class NewCharacterScreen extends screen_1.BaseScreen {
             case _Field.NAME:
                 help.push("[A-Z Del] Edit name");
                 break;
-            case _Field.RACE:
+            case _Field.BACKGROUND:
                 help.push("[⬆/⬇] Select background");
                 break;
             case _Field.CLASS:
@@ -68,8 +68,24 @@ class NewCharacterScreen extends screen_1.BaseScreen {
             }
         }
     }
-    _renderBackground(terminal) { }
-    _renderClass(terminal) { }
+    _renderBackground(terminal) {
+        let display = terminal['terminal'];
+        let panel = new panel_1.Panel(display, 0, 11, 40, 29, false);
+        panel._frame();
+        display.drawText(2, 11, "︱Background︱");
+        if (this._field == _Field.BACKGROUND) {
+            console.log("Background field focused");
+            panel.focused = true;
+            console.log(panel.focused);
+            this.ui.dirty();
+            this.ui.refresh();
+        }
+        else {
+            console.log("Background field not in focus.");
+        }
+    }
+    _renderClass(terminal) {
+    }
     _renderMenu(terminal) { }
     handleInput(input) {
         if (input == input_1.Input.cancel) {
@@ -89,7 +105,6 @@ class NewCharacterScreen extends screen_1.BaseScreen {
                 else {
                     this._changeField(1);
                 }
-                console.log(this._field);
                 return true;
             case key_bindings_1.KeyCode.back:
                 if (this._field == _Field.NAME) {

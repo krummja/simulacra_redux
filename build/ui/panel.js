@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Panel = exports.BOX = exports.FRAME = void 0;
+exports.Panel = exports.FOCUSED_BOX = exports.BOX = exports.FOCUSED_FRAME = exports.FRAME = void 0;
 const glyph_1 = require("./glyph");
 exports.FRAME = {
     T_LEFT: new glyph_1.Glyph({
@@ -39,6 +39,43 @@ exports.FRAME = {
         background: '#000000'
     })
 };
+exports.FOCUSED_FRAME = {
+    T_LEFT: new glyph_1.Glyph({
+        character: '╒',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    T_RIGHT: new glyph_1.Glyph({
+        character: '╕',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    B_LEFT: new glyph_1.Glyph({
+        character: '╘',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    B_RIGHT: new glyph_1.Glyph({
+        character: '╛',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    VERTICAL: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    HORIZONTAL: new glyph_1.Glyph({
+        character: '═',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    EMPTY: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#000000',
+        background: '#000000'
+    })
+};
 exports.BOX = {
     T_LEFT: new glyph_1.Glyph({
         character: '┌',
@@ -68,6 +105,43 @@ exports.BOX = {
     HORIZONTAL: new glyph_1.Glyph({
         character: ' ',
         foreground: '#ffffff',
+        background: '#000000'
+    }),
+    EMPTY: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#000000',
+        background: '#000000'
+    })
+};
+exports.FOCUSED_BOX = {
+    T_LEFT: new glyph_1.Glyph({
+        character: '┌',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    T_RIGHT: new glyph_1.Glyph({
+        character: '┐',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    B_LEFT: new glyph_1.Glyph({
+        character: '└',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    B_RIGHT: new glyph_1.Glyph({
+        character: '┘',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    VERTICAL: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#fc5a03',
+        background: '#000000'
+    }),
+    HORIZONTAL: new glyph_1.Glyph({
+        character: ' ',
+        foreground: '#fc5a03',
         background: '#000000'
     }),
     EMPTY: new glyph_1.Glyph({
@@ -115,10 +189,18 @@ class Panel {
     _frame() {
         let w = this.width -= 1;
         let h = this.height -= 1;
-        this._horizontal(this.x, this.y, w, exports.FRAME.T_LEFT, exports.FRAME.T_RIGHT, exports.FRAME.HORIZONTAL);
-        this._vertical(this.x, this.y, h, exports.FRAME.VERTICAL);
-        this._vertical(this.x + w, this.y, h, exports.FRAME.VERTICAL);
-        this._horizontal(this.x, this.y + h, w, exports.FRAME.B_LEFT, exports.FRAME.B_RIGHT, exports.FRAME.HORIZONTAL);
+        if (this.focused) {
+            this._horizontal(this.x, this.y, w, exports.FOCUSED_FRAME.T_LEFT, exports.FOCUSED_FRAME.T_RIGHT, exports.FOCUSED_FRAME.HORIZONTAL);
+            this._vertical(this.x, this.y, h, exports.FOCUSED_FRAME.VERTICAL);
+            this._vertical(this.x + w, this.y, h, exports.FOCUSED_FRAME.VERTICAL);
+            this._horizontal(this.x, this.y + h, w, exports.FOCUSED_FRAME.B_LEFT, exports.FOCUSED_FRAME.B_RIGHT, exports.FOCUSED_FRAME.HORIZONTAL);
+        }
+        else {
+            this._horizontal(this.x, this.y, w, exports.FRAME.T_LEFT, exports.FRAME.T_RIGHT, exports.FRAME.HORIZONTAL);
+            this._vertical(this.x, this.y, h, exports.FRAME.VERTICAL);
+            this._vertical(this.x + w, this.y, h, exports.FRAME.VERTICAL);
+            this._horizontal(this.x, this.y + h, w, exports.FRAME.B_LEFT, exports.FRAME.B_RIGHT, exports.FRAME.HORIZONTAL);
+        }
     }
     _box() {
         let w = this.width -= 1;

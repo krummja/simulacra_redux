@@ -9,7 +9,7 @@ import { mod } from './util/mod';
 
 class _Field {
   static NAME: number = 0;
-  static RACE: number = 1;
+  static BACKGROUND: number = 1;
   static CLASS: number = 2;
   static count: number = 3;
 }
@@ -50,7 +50,7 @@ export class NewCharacterScreen extends BaseScreen<Input>
         help.push("[A-Z Del] Edit name");
         break;
 
-      case _Field.RACE:
+      case _Field.BACKGROUND:
         help.push("[⬆/⬇] Select background");
         break;
 
@@ -93,7 +93,20 @@ export class NewCharacterScreen extends BaseScreen<Input>
   
   private _renderBackground(terminal: Terminal): void 
   {
+    let display = terminal['terminal'];
 
+    let panel = new Panel(display, 0, 11, 40, 29, false);
+    panel._frame();
+    display.drawText(2, 11, "︱Background︱");
+
+    // TODO: Gotta fix this... currently does not update the focused state. :(
+    if (this._field == _Field.BACKGROUND) {
+      console.log("Background field focused");
+      panel.focused = true;
+
+    } else {
+      console.log("Background field not in focus.");
+    }
   }
 
   private _renderClass(terminal: Terminal): void 
@@ -123,7 +136,6 @@ export class NewCharacterScreen extends BaseScreen<Input>
         } else {
           this._changeField(1);
         }
-        console.log(this._field);
         return true;
 
       case KeyCode.back:

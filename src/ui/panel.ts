@@ -47,6 +47,51 @@ export const FRAME = {
     })
 }
 
+export const FOCUSED_FRAME = {
+  T_LEFT: 
+    new Glyph({
+      character: '╒',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  T_RIGHT: 
+    new Glyph({
+      character: '╕',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  B_LEFT: 
+    new Glyph({
+      character: '╘',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  B_RIGHT: 
+    new Glyph({
+      character: '╛',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  VERTICAL: 
+    new Glyph({
+      character: ' ',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  HORIZONTAL: 
+    new Glyph({
+      character: '═',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  EMPTY:
+    new Glyph({
+      character: ' ',
+      foreground: '#000000',
+      background: '#000000'
+    })
+}
+
 export const BOX = {
   T_LEFT: 
     new Glyph({
@@ -91,6 +136,53 @@ export const BOX = {
       background: '#000000'
     })
 }
+
+export const FOCUSED_BOX = {
+  T_LEFT: 
+    new Glyph({
+      character: '┌',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  T_RIGHT: 
+    new Glyph({
+      character: '┐',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  B_LEFT: 
+    new Glyph({
+      character: '└',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  B_RIGHT: 
+    new Glyph({
+      character: '┘',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  VERTICAL: 
+    new Glyph({
+      character: ' ',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  HORIZONTAL: 
+    new Glyph({
+      character: ' ',
+      foreground: '#fc5a03',
+      background: '#000000'
+    }),
+  EMPTY:
+    new Glyph({
+      character: ' ',
+      foreground: '#000000',
+      background: '#000000'
+    })
+}
+
+
 
 
 
@@ -147,10 +239,17 @@ export class Panel
   { 
     let w = this.width -= 1;
     let h = this.height -= 1;
-    this._horizontal(this.x, this.y, w, FRAME.T_LEFT, FRAME.T_RIGHT, FRAME.HORIZONTAL);
-    this._vertical(this.x, this.y, h, FRAME.VERTICAL);
-    this._vertical(this.x + w, this.y, h, FRAME.VERTICAL);
-    this._horizontal(this.x, this.y + h, w, FRAME.B_LEFT, FRAME.B_RIGHT, FRAME.HORIZONTAL);
+    if (this.focused) {
+      this._horizontal(this.x, this.y, w, FOCUSED_FRAME.T_LEFT, FOCUSED_FRAME.T_RIGHT, FOCUSED_FRAME.HORIZONTAL);
+      this._vertical(this.x, this.y, h, FOCUSED_FRAME.VERTICAL);
+      this._vertical(this.x + w, this.y, h, FOCUSED_FRAME.VERTICAL);
+      this._horizontal(this.x, this.y + h, w, FOCUSED_FRAME.B_LEFT, FOCUSED_FRAME.B_RIGHT, FOCUSED_FRAME.HORIZONTAL);
+    } else {
+      this._horizontal(this.x, this.y, w, FRAME.T_LEFT, FRAME.T_RIGHT, FRAME.HORIZONTAL);
+      this._vertical(this.x, this.y, h, FRAME.VERTICAL);
+      this._vertical(this.x + w, this.y, h, FRAME.VERTICAL);
+      this._horizontal(this.x, this.y + h, w, FRAME.B_LEFT, FRAME.B_RIGHT, FRAME.HORIZONTAL);
+    }
   }
 
   _box(): void
