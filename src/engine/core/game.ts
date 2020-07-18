@@ -46,7 +46,7 @@ export class Game
 
     // this._stage.addActor(this._player);
 
-    yield "Visibility";
+    yield "Calculating Visibility";
 
     // this._stage.refreshView();
 

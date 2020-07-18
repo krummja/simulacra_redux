@@ -2,7 +2,7 @@ import { IGlyph, RenderOrder } from '../../ui';
 import { Entity } from './entity';
 
 
-export class Actor extends Entity
+export class Actor implements Noun
 {
   constructor(
     public name: string,
@@ -10,6 +10,12 @@ export class Actor extends Entity
     public renderOrder: RenderOrder,
     public glyphProps: IGlyph
   ) {
-    super(name, sightRadius, renderOrder, glyphProps);
+    
   }
+}
+
+
+export class Noun
+{
+
 }
