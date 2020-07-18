@@ -6,37 +6,37 @@ export const FRAME = {
   T_LEFT: 
     new Glyph({
       character: '╒',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   T_RIGHT: 
     new Glyph({
       character: '╕',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   B_LEFT: 
     new Glyph({
       character: '╘',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   B_RIGHT: 
     new Glyph({
       character: '╛',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   VERTICAL: 
     new Glyph({
       character: ' ',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   HORIZONTAL: 
     new Glyph({
       character: '═',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   EMPTY:
@@ -96,37 +96,37 @@ export const BOX = {
   T_LEFT: 
     new Glyph({
       character: '┌',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   T_RIGHT: 
     new Glyph({
       character: '┐',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   B_LEFT: 
     new Glyph({
       character: '└',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   B_RIGHT: 
     new Glyph({
       character: '┘',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   VERTICAL: 
     new Glyph({
       character: ' ',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   HORIZONTAL: 
     new Glyph({
       character: ' ',
-      foreground: '#ffffff',
+      foreground: '#333333',
       background: '#000000'
     }),
   EMPTY:
@@ -250,7 +250,7 @@ export class Panel
   {
     let w = this.width -= 1;
     let h = this.height -= 1;
-    
+
     this._horizontal(this.x, this.y, w, FOCUSED_FRAME.T_LEFT, FOCUSED_FRAME.T_RIGHT, FOCUSED_FRAME.HORIZONTAL);
     this._vertical(this.x, this.y, h, FOCUSED_FRAME.VERTICAL);
     this._vertical(this.x + w, this.y, h, FOCUSED_FRAME.VERTICAL);

@@ -5,13 +5,23 @@ import { Storage } from './storage';
 import { Terminal } from '../main';
 import { Panel } from './panel';
 import { KeyCode } from './key_bindings';
+import { GameContent } from '../content';
 import { mod } from './util/mod';
+import { GameScreen } from './game_screen';
 
 class _Field {
   static NAME: number = 0;
   static BACKGROUND: number = 1;
   static CLASS: number = 2;
   static count: number = 3;
+}
+
+enum _Background {
+  Default,
+}
+
+enum _BaseClass {
+  Default,
 }
 
 
@@ -22,14 +32,17 @@ export class NewCharacterScreen extends BaseScreen<Input>
   _field: number = _Field.NAME;
   _name: string = "";
   _defaultName: string = "Aulia";
-  _background: number;
-  _class: number;
+  _background: number = 0;
+  _class: number = 0;
 
   constructor(
     public content: Content, 
     public storage: Storage
   ) {
     super();
+
+    this.content = content;
+    this.storage = storage;
   }
 
   render(terminal: Terminal): void {
@@ -68,7 +81,7 @@ export class NewCharacterScreen extends BaseScreen<Input>
   {
     let display = terminal['terminal'];
 
-    let panel = new Panel(display, 0, 0, 40, 10, false)
+    let panel = new Panel(display, 0, 0, 40, 10)
     let box = new Panel(display, 2, 5, 24, 3)._box();
     
     if (this._field == _Field.NAME) {
@@ -76,7 +89,7 @@ export class NewCharacterScreen extends BaseScreen<Input>
       display.drawText(2, 0, "%c{#fc5a03}" + "︱Name︱");
     } else {
       panel._frame();
-      display.drawText(2, 0, "︱Name︱");
+      display.drawText(2, 0, "%c{#333}" + "︱Name︱");
     }
 
     display.drawText(2, 2, "A new dawn rises on a lone");
@@ -108,20 +121,30 @@ export class NewCharacterScreen extends BaseScreen<Input>
   {
     let display = terminal['terminal'];
 
-    let panel = new Panel(display, 0, 11, 40, 29, false);
+    let panel = new Panel(display, 0, 11, 40, 30);
   
     if (this._field == _Field.BACKGROUND) {
       panel._focused_frame();
       display.drawText(2, 11, "%c{#fc5a03}" + "︱Background︱");
     } else {
       panel._frame();
-      display.drawText(2, 11, "︱Background︱");
+      display.drawText(2, 11, "%c{#333}" + "︱Background︱");
     }
   }
 
   private _renderClass(terminal: Terminal): void 
   {
+    let display = terminal['terminal'];
+    let height = terminal.size[1];
 
+    let panel = new Panel(display, 42, 0, 40, 41);
+    if (this._field == _Field.CLASS) {
+      panel._focused_frame();
+      display.drawText(44, 0, "%c{#fc5a03}" + "︱Base Class︱");
+    } else {
+      panel._frame();
+      display.drawText(44, 0, "%c{#333}" + "︱Base Class︱");
+    }
   }
   
   private _renderMenu(terminal: Terminal): void {}
@@ -138,6 +161,18 @@ export class NewCharacterScreen extends BaseScreen<Input>
   { 
     switch (keyCode) {
       case KeyCode.enter:
+        let id = Math.floor(100000 + Math.random() * 900000);
+        let character = this.content.createPlayer(
+          id,
+          this._name.length > 0 ? this._name : this._defaultName, 
+          this.content.backgrounds[this._background], 
+          this.content.baseClasses[this._class]
+        );
+
+        this.storage.characters.push(character);
+        this.storage.save();
+
+        // this.ui.goTo(GameScreen.town(this.content));
         return true;
 
       case KeyCode.tab:

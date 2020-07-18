@@ -1,5 +1,8 @@
 import { Action } from '../action/action';
 import { Queue } from './queue';
+import { CharacterSave } from '../character/character_save';
+import { BaseClass } from '../character/base_class';
+import { Background } from '../character/background';
 
 
 /**
@@ -60,9 +63,10 @@ export abstract class Content
 {
   // abstract buildStage(): Iterable<string>;
 
-  abstract doNothing(): void;
+  baseClasses: BaseClass[] = [];
+  backgrounds: Background[] = [];
 
-  // abstract createPlayer()
+  abstract createPlayer(id: number, name: string, background: Background, baseClass: BaseClass): CharacterSave;
 }
 
 

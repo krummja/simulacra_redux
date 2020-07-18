@@ -47,7 +47,7 @@ export class KeyCode
   static back   = ROT.KEYS.VK_BACK_SPACE;
   static tab    = ROT.KEYS.VK_TAB;
 
-  static enter = ROT.KEYS.VK_ENTER;
+  static enter = 13;
   static esc   = ROT.KEYS.VK_ESCAPE;
   static a     = ROT.KEYS.VK_A;
   static b     = ROT.KEYS.VK_B;

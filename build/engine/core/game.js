@@ -34,6 +34,11 @@ exports.Game = Game;
  * that collectively define the player experience.
  */
 class Content {
+    constructor() {
+        // abstract buildStage(): Iterable<string>;
+        this.baseClasses = [];
+        this.backgrounds = [];
+    }
 }
 exports.Content = Content;
 /**

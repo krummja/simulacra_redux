@@ -1,44 +1,56 @@
+import { id } from "inversify";
 import { Content } from "../engine";
 import { CharacterSave } from "../engine/character/character_save";
 import { Entity } from "../engine/core/entity";
 
 
-export interface ICharacterSave {
-  name: string;
-  race: string;
-  class: string;
-}
-
 export class Storage
 {
-  content: Content;
-  characters: ICharacterSave[] = [];
+  characters: CharacterSave[] = [];
 
-  constructor(content: Content)
-  {
-    this.content = content;
+  constructor(
+    public content: Content
+  ) {
+    this.load();
   }
 
-  private _load(): void
+  load(): void
   {
-    let storage = window.localStorage.getItem('characters');
+    let storage = localStorage.getItem('characters');
     if (storage == null) return;
+
+    let data: CharacterSave[] = JSON.parse(storage);
+
+    for (let i = 0; i < data.length; i++) {
+      let id         = data[i]['id'];
+      let name       = data[i]['name'];
+      let background = data[i]['background'];
+      let baseClass  = data[i]['baseClass'];
+      
+      let characterSave: CharacterSave = {
+        id: id,
+        name: name,
+        background: background,
+        baseClass: baseClass
+      }
+
+      this.characters.push(characterSave);
+    }
   }
 
-  save()
+  save(): void
   {
     let characterData = [];
 
-    let character: any;
-    for (character in this.characters) {
-      const NAME = character.name;
-      const RACE = character.race;
-      const CLASS = character.class;
-
-      characterData.push(character);
+    for (let i = 0; i < this.characters.length; i++) {
+      characterData.push({
+        id:         this.characters[i]['id'],
+        name:       this.characters[i]['name'],
+        background: this.characters[i]['background'],
+        baseClass:  this.characters[i]['baseClass']
+      })
     }
 
-    let data = JSON.stringify(characterData);
-    window.localStorage.setItem('characters', data);
+    localStorage.setItem('characters', JSON.stringify(characterData));
   }
 }

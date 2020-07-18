@@ -9,19 +9,23 @@ import { NewCharacterScreen } from './new_character_screen';
 import { BaseScreen } from './screen';
 import { Storage } from './storage';
 import { mod } from './util/mod';
+import { CharacterSave } from '../engine/character/character_save';
+import { Background } from '../engine/character/background';
+import { BaseClass } from '../engine/character/base_class';
+import { GameContent } from '../content';
 
-type CharacterData = {
-  name: string;
-  level: string;
-  race: string;
-  class: string;
-}
+
 
 const _chars = [
-  "◢■■■■■■■◣",
-  "▁▂▃▄▅▆▇▉▊",
-  "◥◤❚〓█▌▐▍▎▏",
-  "▏▕░▬▔▰∎▮"
+"  ____________   ____    ____  _____  _____    ____       ____  ______           ___________      __________   ___________     ___________	",
+" /    ___     \\ |    \\   \\   \\/___  \\/___  \\  |    \\     |   / |      |         |     ___   \\    /  ___     \\ |     ___   \\   |     ___   \\",
+"|    /   \\____/  \\   |    |  |    |  |   |  |  \\   |     |  |   \\    /           \\   |   \\   |  |  |   \\____/  \\   |   \\   \\   \\   |   \\   |",
+"|   |             |  |    |  |    |  |   |  |   |  |     |  |    |  |             |  |    |  |  |  |            |  |    |  |    |  |    |  |",
+"|    \\________    |  |    |  |    |  |   |  |   |  |     |  |    |  |             |  |____|  |  |  |            |  |____|  /    |  |____|  |",
+" \\________    \\   |  |    |  |    |  |   |  |   |  |     |  |    |  |             |   ____   |  |  |            |   ___   /     |   ____   | ",
+" ____     |   |   |  |    |  |    |  |   |  |   |  |     |  |    |  |      ___    |  |    |  |  |  |     ___    |  |   \\  \\     |  |    |  | ",
+"/    \\___/    |   |  |_  _|  |    |  |_  |  |_  |   \\___/   |_  _|   \\____/   \\  _|  |    |  |_ |   \\___/   \\  _|  |    \\  \\_  _|  |    |  |_",
+"\\_____________/   \\___/  \\___/    \\___/  \\___/  \\_______/\\___/  \\_____________/  \\___/    \\___/  \\__________/  \\___/     \\___/ \\___/    \\___/",
 ];
 
 
@@ -38,7 +42,8 @@ export class MainMenuScreen extends BaseScreen<Input>
   constructor(content: Content)
   {
     super()
-    this.content = content;
+    this.content = new GameContent();
+    this.storage = new Storage(this.content);
   }
 
   // [handleInput] defines what to do when an [Input] is invoked, regardless of KeyCode binding.
@@ -53,7 +58,7 @@ export class MainMenuScreen extends BaseScreen<Input>
         return true;
       
       case Input.ok:
-        this.ui.push(GameScreen.town(this.content))
+        this.ui.push(GameScreen.town(this.content));
         return true;
     }
 
@@ -74,11 +79,6 @@ export class MainMenuScreen extends BaseScreen<Input>
     return false;
   }
 
-  activate(): void
-  {
-
-  }
-
   render(terminal: Terminal): void
   {
     let display = terminal['terminal'];
@@ -88,20 +88,25 @@ export class MainMenuScreen extends BaseScreen<Input>
 
     display.drawText(10, 18, 'Which character shall you play?');
 
-    if (this.renderList.length == 0) {
+    if (this.storage.characters.length == 0) {
       display.drawText(10, 20, '%c{#ff0000}No characters! Please create a new one.%c{}');
     }
 
-    for (let i = 0; i < this.renderList.length; i++) {
-      let character: CharacterData = this.renderList[i];
+    for (let i = 0; i < this.storage.characters.length; i++) {
+
+
+      let character: CharacterSave = this.storage.characters[i];
       if (i == this.selection) {
         display.drawText(8, 20 + i, '%c{#cc66ff}▶%c{}')
       }
 
+      let background = character.background as Background;
+      let baseClass = character.baseClass as BaseClass;
+
       display.drawText(10, 20 + i, character.name);
-      display.drawText(30, 20 + i, '%c{#555}'+character.level);
-      display.drawText(40, 20 + i, '%c{#555}'+character.race);
-      display.drawText(50, 20 + i, '%c{#555}'+character.class);
+      display.drawText(30, 20 + i, '%c{#999}'+'Lv. 1');
+      display.drawText(40, 20 + i, '%c{#999}'+background.name);
+      display.drawText(50, 20 + i, '%c{#999}'+baseClass.name);
     }
 
     for (let y = 0; y < _chars.length; y++) {
@@ -118,7 +123,7 @@ export class MainMenuScreen extends BaseScreen<Input>
 
   private _changeSelection(offset: number): void
   {
-    this.selection = mod((this.selection + offset), this.renderList.length);
+    this.selection = mod((this.selection + offset), this.storage.characters.length);
     this.ui.dirty();
     this.ui.refresh();
   }

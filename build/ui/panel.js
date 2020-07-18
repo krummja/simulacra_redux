@@ -5,32 +5,32 @@ const glyph_1 = require("./glyph");
 exports.FRAME = {
     T_LEFT: new glyph_1.Glyph({
         character: '╒',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     T_RIGHT: new glyph_1.Glyph({
         character: '╕',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     B_LEFT: new glyph_1.Glyph({
         character: '╘',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     B_RIGHT: new glyph_1.Glyph({
         character: '╛',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     VERTICAL: new glyph_1.Glyph({
         character: ' ',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     HORIZONTAL: new glyph_1.Glyph({
         character: '═',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     EMPTY: new glyph_1.Glyph({
@@ -79,32 +79,32 @@ exports.FOCUSED_FRAME = {
 exports.BOX = {
     T_LEFT: new glyph_1.Glyph({
         character: '┌',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     T_RIGHT: new glyph_1.Glyph({
         character: '┐',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     B_LEFT: new glyph_1.Glyph({
         character: '└',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     B_RIGHT: new glyph_1.Glyph({
         character: '┘',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     VERTICAL: new glyph_1.Glyph({
         character: ' ',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     HORIZONTAL: new glyph_1.Glyph({
         character: ' ',
-        foreground: '#ffffff',
+        foreground: '#333333',
         background: '#000000'
     }),
     EMPTY: new glyph_1.Glyph({
