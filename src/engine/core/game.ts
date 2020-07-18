@@ -3,6 +3,8 @@ import { Queue } from './queue';
 import { CharacterSave } from '../character/character_save';
 import { BaseClass } from '../character/base_class';
 import { Background } from '../character/background';
+import { Stage } from '../stage/stage';
+import { Entity } from './entity';
 
 
 /**
@@ -10,15 +12,20 @@ import { Background } from '../character/background';
  */
 export class Game
 {
-  // mapService...
-
   private _events: Array<Event>;
 
   private _actions: Queue<Action>;
+
   private _reactions: Array<Action>;
+
+  private _stage: Stage;
+
+  // TODO: Fix this to reflect the correct Type
+  private _player: Entity;
   
   constructor(
     public content: Content,
+    public save: CharacterSave,
     public width: number,
     public height: number
   ) {
@@ -27,8 +34,22 @@ export class Game
 
   // Set up the map and instantiate the player's character.
   // Yield to FOV calculations
-  generate(): Iterable<string>
+  *generate(): Iterable<string>
   {
+    let charPos: [number, number];
+
+    // TODO: Set up the stage builder.
+    yield* this.content.buildStage();
+    
+    // TODO
+    // this._player = new Character(this, charPos, this.save);
+
+    // this._stage.addActor(this._player);
+
+    yield "Visibility";
+
+    // this._stage.refreshView();
+
     return;
   }
 
@@ -61,10 +82,11 @@ export class Game
  */
 export abstract class Content
 {
-  // abstract buildStage(): Iterable<string>;
-
   baseClasses: BaseClass[] = [];
+  
   backgrounds: Background[] = [];
+  
+  abstract buildStage(): Iterable<string>;
 
   abstract createPlayer(id: number, name: string, background: Background, baseClass: BaseClass): CharacterSave;
 }

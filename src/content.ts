@@ -23,6 +23,12 @@ export class GameContent implements Content
     Backgrounds.Default
   ];
   
+  // TODO: Implement stage, position
+  buildStage(): Iterable<string>
+  {
+    return
+  }
+
   createPlayer(id: number, name: string, background: Background, baseClass: BaseClass): CharacterSave
   {
     return new CharacterSave(id, name, background, baseClass);
