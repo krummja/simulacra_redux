@@ -13,6 +13,8 @@ import { CharacterSave } from '../engine/character/character_save';
 import { Background } from '../engine/character/background';
 import { BaseClass } from '../engine/character/base_class';
 import { GameContent } from '../content';
+import { Map } from '../engine/core/map';
+import { Rect } from '../engine/stage/rect';
 
 
 
@@ -58,7 +60,7 @@ export class MainMenuScreen extends BaseScreen<Input>
         return true;
       
       case Input.ok:
-        this.ui.push(GameScreen.town(this.content));
+        // this.ui.push(GameScreen.town(this.content));
         return true;
     }
 

@@ -3,7 +3,7 @@ import { Input } from './input';
 import { Content } from '../engine/core/game';
 import { Storage } from './storage';
 import { Terminal } from '../main';
-import { Panel } from './panel';
+import { Panel } from './frame';
 import { KeyCode } from './key_bindings';
 import { GameContent } from '../content';
 import { mod } from './util/mod';

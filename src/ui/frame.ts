@@ -1,4 +1,5 @@
 import * as ROT from 'rot-js';
+import { Rect } from '../engine/stage/rect';
 import { Glyph } from './glyph';
 
 
@@ -195,14 +196,17 @@ export const FOCUSED_BOX = {
  */
 export class Panel
 {
+  bounds: Rect;
+
   constructor(
     public display: ROT.Display,
     public x: number,
     public y: number,
     public width: number,
     public height: number,
-    public focused?: boolean
-  ) { }
+  ) { 
+    this.bounds = new Rect(this.x, this.y, this.width, this.height);
+  }
 
   // Draw a single [Glyph] at position [x, y].
   _point(x: number, y: number, symbol: Glyph)

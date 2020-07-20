@@ -27,15 +27,8 @@ export class GameScreen extends BaseScreen<Input>
     super()
     this.game = game;
     this.storage = storage;
-  }
 
-  static town(storage: Storage, content: Content, save: CharacterSave)
-  {
-    let game = new Game(content, save, 120, 48);
-
-    for (let _ in game.generate()) {}
-
-    return new GameScreen(game, storage);
+    this._stagePanel = new StagePanel(this, 50, 0, 100, 48);
   }
 
   handleInput(input: Input): boolean

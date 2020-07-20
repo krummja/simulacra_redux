@@ -4,8 +4,13 @@ import { CharacterSave } from '../character/character_save';
 import { BaseClass } from '../character/base_class';
 import { Background } from '../character/background';
 import { Stage } from '../stage/stage';
-import { Entity } from './entity';
+import { Actor } from './actor';
+import { MapService } from './services/map.service';
+import { ActorService } from './services/actor.service';
+import { container } from './container';
 
+const actorService = container.get<ActorService>("ActorService");
+const mapService = container.get<MapService>("MapService");
 
 /**
  * Root class for the game engine. All game state is contained in this.
@@ -18,10 +23,11 @@ export class Game
 
   private _reactions: Array<Action>;
 
+  get stage() { return this._stage; }
   private _stage: Stage;
 
-  // TODO: Fix this to reflect the correct Type
-  private _player: Entity;
+  get subject() { return this._subject; }
+  private _subject: Actor;
   
   constructor(
     public content: Content,
@@ -30,27 +36,6 @@ export class Game
     public height: number
   ) {
 
-  }
-
-  // Set up the map and instantiate the player's character.
-  // Yield to FOV calculations
-  *generate(): Iterable<string>
-  {
-    let charPos: [number, number];
-
-    // TODO: Set up the stage builder.
-    yield* this.content.buildStage();
-    
-    // TODO
-    // this._player = new Character(this, charPos, this.save);
-
-    // this._stage.addActor(this._player);
-
-    yield "Calculating Visibility";
-
-    // this._stage.refreshView();
-
-    return;
   }
 
   // Updates the game's internal logic.

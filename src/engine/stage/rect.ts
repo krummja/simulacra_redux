@@ -1,3 +1,4 @@
+import { IterableBase } from './iterator';
 import { Vec, VecBase } from './vec';
 
 

@@ -1,55 +1,37 @@
-import { Vec, VecBase } from './vec';
-import { Rect } from './rect';
+import { Tile } from '../../ui/tile';
 
 
+export interface Vec {
+  x: number;
+  y: number;
+}
 
 
 export class Array2D<T>
 {
-  get elements() { return this._elements; }
-  private _elements: T[] = [];
-
-  get bounds() { return this._bounds; }
-  private _bounds: Rect;
+  private _elements: T[][] = [];
 
   constructor(
     public width: number,
     public height: number,
-    public value?: T
+    value?: T
   ) {
-    for (let i = 0; i < this.width * this.height; i++) {
-      this._elements.push(value);
+    for (let x = 0; x < this.width; x++) {
+      this._elements[x] = [];
+
+      for (let y = 0; y < this.height; y++) {
+        this._elements[x][y] = value;
+      }
     }
-    this._bounds = new Rect(0, 0, this.width, this.height);
   }
 
-  generate(generator: Generator): void
+  get(pos: Vec)
   {
-    
+    return this._elements[pos.x][pos.y];
   }
 
-  /**
-   * Gets the element in the array at [x], [y].
-   */
-  get(pos: Vec): T
+  set(pos: Vec, value: T)
   {
-    return this._elements[pos.y * this.width + pos.x];
-  }
-
-  /**
-   * Sets the element in the array at [x], [y] to [value].
-   */
-  set(pos: Vec, value: T): void
-  {
-    this._elements[pos.y * this.width + pos.x] = value;
-  }
-
-  
-  /**
-   * Sets every element to [value].
-   */
-  fill(value: T)
-  {
-    this._elements.fill(value, 0, this._elements.length);
+    this._elements[pos.x][pos.y] = value;
   }
 }

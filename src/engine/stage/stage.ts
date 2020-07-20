@@ -1,22 +1,40 @@
 import { Game } from '../core/game';
 import { Actor } from '../core/actor';
+import { Tile } from '../../ui';
+import { Array2D, Vec } from './array2d';
 
 /**
  * The game's live play area.
  */
 export class Stage
 {
-  game: Game;
+  tiles: Array2D<Tile> = new Array2D(this.width, this.height);
 
-  private _actors: Array<Actor> = [];
+  actorsByTile: Array2D<Actor> = new Array2D(this.width, this.height);
 
-  private _currentActorIndex: number = 0;
+  constructor(
+    public width: number, 
+    public height: number, 
+    public game: Game
+  ) {}
 
-  currentActor: Actor = this._actors[this._currentActorIndex];
-
-  constructor(width: number, height: number, game: Game)
+  moveActor(from: Vec, to: Vec)
   {
-    this.game = game;
-    // TODO: Set up stage tiles in here as well.
+    let actor = this.actorsByTile.get(from);
+
+    this.actorsByTile.set(from, null);
+    this.actorsByTile.set(to, actor);
   }
+
+  removeActor(){}
+  advanceActor(){}
+  actorAt(){}
+  placeDrops(){}
+  addItem(){}
+  isItemAt(){}
+  itemsAt(){}
+  forEachItem(){}
+
+  exploreAt(){}
+  findOpenTile(){}
 }
