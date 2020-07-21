@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MainMenuScreen = void 0;
+const game_screen_1 = require("./game_screen");
 const input_1 = require("./input");
 const key_bindings_1 = require("./key_bindings");
 const new_character_screen_1 = require("./new_character_screen");
@@ -37,8 +38,14 @@ class MainMenuScreen extends screen_1.BaseScreen {
                 this._changeSelection(1);
                 return true;
             case input_1.Input.ok:
-                // this.ui.push(GameScreen.town(this.content));
+                // TODO: Fix this - currently does not load the selected character.
+                this.ui.push(game_screen_1.GameScreen.initialize(this.storage, this.content, null));
                 return true;
+            case input_1.Input.cancel:
+                //! TODO: BE SURE TO REMOVE THIS BEFORE PRODUCTION LOL
+                this.storage.characters = [];
+                this.ui.dirty();
+                this.ui.refresh();
         }
         return false;
     }

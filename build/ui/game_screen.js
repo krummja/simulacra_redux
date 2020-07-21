@@ -28,18 +28,13 @@ class GameScreen extends screen_1.BaseScreen {
     }
     keyDown(keyCode) { return false; }
     keyUp(keyCode) { return false; }
-    activate() {
-    }
-    update() {
-    }
     render(terminal) {
         let display = terminal['terminal'];
         display.clear();
         this._stagePanel.render(terminal);
     }
-    static town(storage, content, save) {
+    static initialize(storage, content, save) {
         let game = new engine_1.Game(content, save, 100, 48);
-        game.subject = null;
         return new GameScreen(game, storage);
     }
 }

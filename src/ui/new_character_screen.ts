@@ -188,7 +188,7 @@ export class NewCharacterScreen extends BaseScreen<Input>
         }));
         mapService.setCurrent(newMapId);
 
-        this.ui.goTo(GameScreen.town(this.storage, this.content, character));
+        this.ui.goTo(GameScreen.initialize(this.storage, this.content, character));
         return true;
 
       case KeyCode.tab:

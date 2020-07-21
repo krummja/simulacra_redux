@@ -29,7 +29,7 @@ export class Game
 
   get subject() { return this._subject; }
   set subject(a: Actor) { this._subject = a; }
-  private _subject: Actor;
+  private _subject: Actor = null;
   
   constructor(
     public content: Content,
@@ -37,28 +37,7 @@ export class Game
     public width: number,
     public height: number
   ) {
-    this._stage = new Stage(width, height, this);
-  }
-
-  // Updates the game's internal logic.
-  update(): GameResult
-  {
-    return
-  }
-
-  addAction(action: Action): void
-  {
-    // if (action.isImmediate)
-  }
-
-  addEvent(): void
-  {
-
-  }
-
-  makeResult(madeProgress: boolean): GameResult
-  {
-    return
+    this._stage = new Stage(width ? width : 100, height ? height : 48, this);
   }
 }
 
@@ -76,34 +55,4 @@ export abstract class Content
   abstract buildStage(): Iterable<string>;
 
   abstract createPlayer(id: number, name: string, background: Background, baseClass: BaseClass): CharacterSave;
-}
-
-
-/**
- * Each call to [Game.update()] will return a [GameResult] object that tells
- * the UI what happened during that update and what it needs to do.
- */
-class GameResult
-{
-
-}
-
-
-/**
- * Describes a single "interesting" thing that occurred during a call to
- * [Game.update()]. In general, events correspond to things that a UI is likely
- * to want to display visually in some form.
- */
-class Event
-{
-
-}
-
-
-/**
- * A kind of [Event] that has occurred.
- */
-class EventType
-{
-
 }

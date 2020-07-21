@@ -1,3 +1,4 @@
+import { clamp } from 'rot-js/lib/util';
 import { Vec } from './array2d';
 
 export class Rect
@@ -32,4 +33,10 @@ export class Rect
   bottomRight = (): Vec => { return {x: this.right(), y: this.bottom()} }
 
   center = (): Vec => { return { x: this.left() + this.right() / 2, y: (this.top() + this.bottom()) / 2 } }
+
+  clamp(vec: Vec): Vec {
+    let x: number = clamp(vec.x, this.left(), this.right()); 
+    let y: number = clamp(vec.y, this.top(), this.bottom());
+    return { x: x, y: y }
+  }
 }

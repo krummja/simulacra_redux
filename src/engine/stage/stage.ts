@@ -8,13 +8,16 @@ import { Array2D, Vec } from './array2d';
  */
 export class Stage
 {
-  tiles: Array2D<Tile> = new Array2D(this.width, this.height);
+  tiles: Array2D<Tile> = new Array2D(this._width, this._height);
 
-  actorsByTile: Array2D<Actor> = new Array2D(this.width, this.height);
+  actorsByTile: Array2D<Actor> = new Array2D(this._width, this._height);
+
+  get width() { return this.tiles.width; }
+  get height() { return this.tiles.height; }
 
   constructor(
-    public width: number, 
-    public height: number, 
+    private _width: number, 
+    private _height: number, 
     public game: Game
   ) {}
 

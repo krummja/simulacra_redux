@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Rect = void 0;
+const util_1 = require("rot-js/lib/util");
 class Rect {
     constructor(x, y, w, h) {
         this.x = x;
@@ -21,6 +22,11 @@ class Rect {
         this.center = () => { return { x: this.left() + this.right() / 2, y: (this.top() + this.bottom()) / 2 }; };
         this.pos = { x: this.x, y: this.y };
         this.geom = { x: this.w, y: this.h };
+    }
+    clamp(vec) {
+        let x = util_1.clamp(vec.x, this.left(), this.right());
+        let y = util_1.clamp(vec.y, this.top(), this.bottom());
+        return { x: x, y: y };
     }
 }
 exports.Rect = Rect;

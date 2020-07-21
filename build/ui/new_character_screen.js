@@ -147,7 +147,7 @@ class NewCharacterScreen extends screen_1.BaseScreen {
                     iterations: 3
                 }));
                 mapService.setCurrent(newMapId);
-                this.ui.goTo(game_screen_1.GameScreen.town(this.storage, this.content, character));
+                this.ui.goTo(game_screen_1.GameScreen.initialize(this.storage, this.content, character));
                 return true;
             case key_bindings_1.KeyCode.tab:
                 if (shift) {

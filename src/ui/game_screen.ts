@@ -53,16 +53,6 @@ export class GameScreen extends BaseScreen<Input>
   keyDown(keyCode: number): boolean { return false; }
   keyUp(keyCode: number): boolean { return false; }
 
-  activate(): void
-  {
-
-  }
-
-  update(): void
-  {
-
-  }
-
   render(terminal: Terminal): void
   {
     let display = terminal['terminal']
@@ -71,10 +61,9 @@ export class GameScreen extends BaseScreen<Input>
     this._stagePanel.render(terminal);
   }
 
-  static town(storage: Storage, content: Content, save: CharacterSave) 
+  static initialize(storage: Storage, content: Content, save: CharacterSave) 
   {
     let game = new Game(content, save, 100, 48);
-    game.subject = null;
     return new GameScreen(game, storage);
   }
 }

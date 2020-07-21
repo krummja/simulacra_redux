@@ -60,8 +60,15 @@ export class MainMenuScreen extends BaseScreen<Input>
         return true;
       
       case Input.ok:
-        // this.ui.push(GameScreen.town(this.content));
+        // TODO: Fix this - currently does not load the selected character.
+        this.ui.push(GameScreen.initialize(this.storage, this.content, null));
         return true;
+      
+      case Input.cancel:
+        //! TODO: BE SURE TO REMOVE THIS BEFORE PRODUCTION LOL
+        this.storage.characters = [];
+        this.ui.dirty();
+        this.ui.refresh();
     }
 
     return false;
