@@ -8,11 +8,12 @@ import { Actor, Content, Entity } from './engine';
 import { TerminalProps } from './types';
 import { BaseScreen, Input, UserInterface, KeyCode } from './ui';
 import { MainMenuScreen } from './ui/main_menu_screen';
+import { Vec } from './engine/stage/array2d';
 
 export type Terminal = {
   terminal: ROT.Display,
   container: HTMLElement,
-  size: [number, number]
+  size: Vec
 }
 
 // Constants for the game terminal
@@ -105,5 +106,5 @@ function _makeTerminal(width: number, height: number, props: TerminalProps): Ter
 
   if (Debug.enabled) {}
 
-  return { terminal: display, container: container, size: [width, height] };
+  return { terminal: display, container: container, size: {x: width, y: height} };
 }

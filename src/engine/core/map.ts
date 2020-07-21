@@ -14,7 +14,7 @@ export interface MapConfig {
 
 export class Map
 {
-  id: number;
+  id: number = 0;
   area: Array2D<Tile>;
   explored: Array2D<boolean>;
 

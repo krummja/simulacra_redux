@@ -85,8 +85,8 @@ export class MainMenuScreen extends BaseScreen<Input>
   {
     let display = terminal['terminal'];
 
-    let width = terminal['size'][0];
-    let height = terminal['size'][1];
+    let width = terminal.size.x;
+    let height = terminal.size.y;
 
     display.drawText(10, 18, 'Which character shall you play?');
 

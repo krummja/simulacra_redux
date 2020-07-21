@@ -3,9 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewCharacterScreen = void 0;
 const screen_1 = require("./screen");
 const input_1 = require("./input");
-const panel_1 = require("./panel");
+const frame_1 = require("./frame");
 const key_bindings_1 = require("./key_bindings");
 const mod_1 = require("./util/mod");
+const game_screen_1 = require("./game_screen");
+// TODO: Move this to content generation
+const container_1 = require("../engine/core/container");
+const map_1 = require("../engine/core/map");
+const mapService = container_1.container.get("MapService");
 class _Field {
 }
 _Field.NAME = 0;
@@ -36,8 +41,8 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     render(terminal) {
         let display = terminal['terminal'];
-        let width = terminal['size'][0];
-        let height = terminal['size'][1];
+        let width = terminal.size.x;
+        let height = terminal.size.y;
         display.clear();
         this._renderName(terminal);
         this._renderBackground(terminal);
@@ -61,8 +66,8 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     _renderName(terminal) {
         let display = terminal['terminal'];
-        let panel = new panel_1.Panel(display, 0, 0, 40, 10);
-        let box = new panel_1.Panel(display, 2, 5, 24, 3)._box();
+        let panel = new frame_1.Panel(display, 0, 0, 40, 10);
+        let box = new frame_1.Panel(display, 2, 5, 24, 3)._box();
         if (this._field == _Field.NAME) {
             panel._focused_frame();
             display.drawText(2, 0, "%c{#fc5a03}" + "︱Name︱");
@@ -96,7 +101,7 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     _renderBackground(terminal) {
         let display = terminal['terminal'];
-        let panel = new panel_1.Panel(display, 0, 11, 40, 30);
+        let panel = new frame_1.Panel(display, 0, 11, 40, 30);
         if (this._field == _Field.BACKGROUND) {
             panel._focused_frame();
             display.drawText(2, 11, "%c{#fc5a03}" + "︱Background︱");
@@ -108,8 +113,8 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     _renderClass(terminal) {
         let display = terminal['terminal'];
-        let height = terminal.size[1];
-        let panel = new panel_1.Panel(display, 42, 0, 40, 41);
+        let height = terminal.size.y;
+        let panel = new frame_1.Panel(display, 42, 0, 40, 41);
         if (this._field == _Field.CLASS) {
             panel._focused_frame();
             display.drawText(44, 0, "%c{#fc5a03}" + "︱Base Class︱");
@@ -134,7 +139,15 @@ class NewCharacterScreen extends screen_1.BaseScreen {
                 let character = this.content.createPlayer(id, this._name.length > 0 ? this._name : this._defaultName, this.content.backgrounds[this._background], this.content.baseClasses[this._class]);
                 this.storage.characters.push(character);
                 this.storage.save();
-                // this.ui.goTo(GameScreen.town(this.content));
+                const newMapId = mapService.getMaxId();
+                mapService.add(new map_1.Map({
+                    width: 100,
+                    height: 48,
+                    ratio: 0.45,
+                    iterations: 3
+                }));
+                mapService.setCurrent(newMapId);
+                this.ui.goTo(game_screen_1.GameScreen.town(this.storage, this.content, character));
                 return true;
             case key_bindings_1.KeyCode.tab:
                 if (shift) {

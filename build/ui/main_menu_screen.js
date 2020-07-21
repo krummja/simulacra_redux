@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MainMenuScreen = void 0;
-const game_screen_1 = require("./game_screen");
 const input_1 = require("./input");
 const key_bindings_1 = require("./key_bindings");
 const new_character_screen_1 = require("./new_character_screen");
@@ -38,7 +37,7 @@ class MainMenuScreen extends screen_1.BaseScreen {
                 this._changeSelection(1);
                 return true;
             case input_1.Input.ok:
-                this.ui.push(game_screen_1.GameScreen.town(this.content));
+                // this.ui.push(GameScreen.town(this.content));
                 return true;
         }
         return false;
@@ -54,12 +53,10 @@ class MainMenuScreen extends screen_1.BaseScreen {
         }
         return false;
     }
-    activate() {
-    }
     render(terminal) {
         let display = terminal['terminal'];
-        let width = terminal['size'][0];
-        let height = terminal['size'][1];
+        let width = terminal.size.x;
+        let height = terminal.size.y;
         display.drawText(10, 18, 'Which character shall you play?');
         if (this.storage.characters.length == 0) {
             display.drawText(10, 20, '%c{#ff0000}No characters! Please create a new one.%c{}');
@@ -72,9 +69,9 @@ class MainMenuScreen extends screen_1.BaseScreen {
             let background = character.background;
             let baseClass = character.baseClass;
             display.drawText(10, 20 + i, character.name);
-            display.drawText(30, 20 + i, '%c{#555}' + background.name);
-            display.drawText(40, 20 + i, '%c{#555}' + baseClass.name);
-            // display.drawText(50, 20 + i, '%c{#555}'+character.baseClass);
+            display.drawText(30, 20 + i, '%c{#999}' + 'Lv. 1');
+            display.drawText(40, 20 + i, '%c{#999}' + background.name);
+            display.drawText(50, 20 + i, '%c{#999}' + baseClass.name);
         }
         for (let y = 0; y < _chars.length; y++) {
             for (let x = 0; x < _chars[y].length; x++) {

@@ -1,20 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Content = exports.Game = void 0;
+const stage_1 = require("../stage/stage");
+const container_1 = require("./container");
+const actorService = container_1.container.get("ActorService");
+const mapService = container_1.container.get("MapService");
 /**
  * Root class for the game engine. All game state is contained in this.
  */
 class Game {
-    constructor(content, width, height) {
+    constructor(content, save, width, height) {
         this.content = content;
+        this.save = save;
         this.width = width;
         this.height = height;
+        this._stage = new stage_1.Stage(width, height, this);
     }
-    // Set up the map and instantiate the player's character.
-    // Yield to FOV calculations
-    generate() {
-        return;
-    }
+    get stage() { return this._stage; }
+    set stage(s) { this._stage = s; }
+    get subject() { return this._subject; }
+    set subject(a) { this._subject = a; }
     // Updates the game's internal logic.
     update() {
         return;
@@ -35,7 +40,6 @@ exports.Game = Game;
  */
 class Content {
     constructor() {
-        // abstract buildStage(): Iterable<string>;
         this.baseClasses = [];
         this.backgrounds = [];
     }

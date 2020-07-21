@@ -24,9 +24,11 @@ export class Game
   private _reactions: Array<Action>;
 
   get stage() { return this._stage; }
+  set stage(s: Stage) { this._stage = s; }
   private _stage: Stage;
 
   get subject() { return this._subject; }
+  set subject(a: Actor) { this._subject = a; }
   private _subject: Actor;
   
   constructor(
@@ -35,7 +37,7 @@ export class Game
     public width: number,
     public height: number
   ) {
-
+    this._stage = new Stage(width, height, this);
   }
 
   // Updates the game's internal logic.

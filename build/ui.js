@@ -10,10 +10,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./ui/panel"), exports);
+__exportStar(require("./ui/frame"), exports);
 __exportStar(require("./ui/glyph"), exports);
 __exportStar(require("./ui/renderOrder"), exports);
 __exportStar(require("./ui/interface"), exports);
 __exportStar(require("./ui/screen"), exports);
 __exportStar(require("./ui/input"), exports);
 __exportStar(require("./ui/key_bindings"), exports);
+__exportStar(require("./ui/tile"), exports);

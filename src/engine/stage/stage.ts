@@ -25,16 +25,4 @@ export class Stage
     this.actorsByTile.set(from, null);
     this.actorsByTile.set(to, actor);
   }
-
-  removeActor(){}
-  advanceActor(){}
-  actorAt(){}
-  placeDrops(){}
-  addItem(){}
-  isItemAt(){}
-  itemsAt(){}
-  forEachItem(){}
-
-  exploreAt(){}
-  findOpenTile(){}
 }

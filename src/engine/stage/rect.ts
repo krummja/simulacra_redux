@@ -1,6 +1,4 @@
-import { IterableBase } from './iterator';
-import { Vec, VecBase } from './vec';
-
+import { Vec } from './array2d';
 
 export class Rect
 {
@@ -13,8 +11,8 @@ export class Rect
     public w: number,
     public h: number
   ) {
-    this.pos = new Vec(this.x, this.y);
-    this.geom = new Vec(this.w, this.h);
+    this.pos = {x: this.x, y: this.y};
+    this.geom = {x: this.w, y: this.h};
   }
 
   row = (x: number, y: number, size: number): Rect => { return new Rect(x, y, size, 1); }
@@ -28,10 +26,10 @@ export class Rect
   right = (): number => { return Math.max(this.x, this.x + this.w);  }
   bottom = (): number => { return Math.max(this.y, this.y + this.h); }
 
-  topLeft = (): Vec => { return new Vec(this.left(), this.top()); }
-  topRight = (): Vec => { return new Vec(this.right(), this.top()); }
-  bottomLeft = (): Vec => { return new Vec(this.left(), this.bottom()); }
-  bottomRight = (): Vec => { return new Vec(this.right(), this.bottom()); }
+  topLeft = (): Vec => { return {x: this.left(), y: this.top()} }
+  topRight = (): Vec => { return {x: this.right(), y: this.top()} }
+  bottomLeft = (): Vec => { return {x: this.left(), y: this.bottom()} }
+  bottomRight = (): Vec => { return {x: this.right(), y: this.bottom()} }
 
-  center = (): Vec => { return new Vec((this.left() + this.right() / 2), (this.top() + this.bottom()) / 2); }
+  center = (): Vec => { return { x: this.left() + this.right() / 2, y: (this.top() + this.bottom()) / 2 } }
 }

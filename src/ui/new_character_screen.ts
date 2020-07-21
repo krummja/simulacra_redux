@@ -9,6 +9,13 @@ import { GameContent } from '../content';
 import { mod } from './util/mod';
 import { GameScreen } from './game_screen';
 
+// TODO: Move this to content generation
+import { container } from '../engine/core/container';
+import { MapService } from '../engine/core/services/map.service';
+import { Map } from '../engine/core/map';
+
+const mapService = container.get<MapService>("MapService");
+
 class _Field {
   static NAME: number = 0;
   static BACKGROUND: number = 1;
@@ -48,8 +55,8 @@ export class NewCharacterScreen extends BaseScreen<Input>
   render(terminal: Terminal): void {
     let display = terminal['terminal'];
 
-    let width = terminal['size'][0];
-    let height = terminal['size'][1];
+    let width = terminal.size.x;
+    let height = terminal.size.y;
 
     display.clear();
     this._renderName(terminal);
@@ -135,7 +142,7 @@ export class NewCharacterScreen extends BaseScreen<Input>
   private _renderClass(terminal: Terminal): void 
   {
     let display = terminal['terminal'];
-    let height = terminal.size[1];
+    let height = terminal.size.y;
 
     let panel = new Panel(display, 42, 0, 40, 41);
     if (this._field == _Field.CLASS) {
@@ -172,7 +179,16 @@ export class NewCharacterScreen extends BaseScreen<Input>
         this.storage.characters.push(character);
         this.storage.save();
 
-        // this.ui.goTo(GameScreen.town(this.content));
+        const newMapId = mapService.getMaxId();
+        mapService.add(new Map({
+          width: 100,
+          height: 48,
+          ratio: 0.45,
+          iterations: 3
+        }));
+        mapService.setCurrent(newMapId);
+
+        this.ui.goTo(GameScreen.town(this.storage, this.content, character));
         return true;
 
       case KeyCode.tab:

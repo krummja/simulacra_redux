@@ -29,6 +29,10 @@ class GameContent {
             backgrounds_1.Backgrounds.Default
         ];
     }
+    // TODO: Implement stage, position
+    buildStage() {
+        return;
+    }
     createPlayer(id, name, background, baseClass) {
         return new character_save_1.CharacterSave(id, name, background, baseClass);
     }

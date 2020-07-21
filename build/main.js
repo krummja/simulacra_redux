@@ -90,5 +90,5 @@ function _makeTerminal(width, height, props) {
     const display = new ROT.Display(Object.assign({ width, height }, props));
     const container = display.getContainer();
     if (debug_1.Debug.enabled) { }
-    return { terminal: display, container: container, size: [width, height] };
+    return { terminal: display, container: container, size: { x: width, y: height } };
 }
