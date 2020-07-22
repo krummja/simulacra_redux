@@ -46,8 +46,6 @@ export class StagePanel extends Panel
         this.drawStageGlyph(terminal, x, y, tile.glyph);
       }
     }
-
-    this.drawStageGlyph(terminal, 30, 30, new Glyph({character: "@", foreground: "#f0f"}))
   }
 
   // Draws [Glyph] at [x], [y] in [Stage] coordinates onto the current view.

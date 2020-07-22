@@ -12,9 +12,11 @@ import { GameScreen } from './game_screen';
 // TODO: Move this to content generation
 import { container } from '../engine/core/container';
 import { MapService } from '../engine/core/services/map.service';
+import { ActorService } from '../engine/core/services/actor.service';
 import { Map } from '../engine/core/map';
 
 const mapService = container.get<MapService>("MapService");
+const actorService = container.get<ActorService>("ActorService");
 
 class _Field {
   static NAME: number = 0;
@@ -168,17 +170,23 @@ export class NewCharacterScreen extends BaseScreen<Input>
   { 
     switch (keyCode) {
       case KeyCode.enter:
+
+        // Create a new ID to use for the Actor
         let id = Math.floor(100000 + Math.random() * 900000);
-        let character = this.content.createPlayer(
+
+        // Call the player creator
+        let newSave = this.content.createPlayer(
           id,
           this._name.length > 0 ? this._name : this._defaultName, 
           this.content.backgrounds[this._background], 
           this.content.baseClasses[this._class]
         );
 
-        this.storage.characters.push(character);
+        // Shove that newly printed infant into storage :>
+        this.storage.saveData.push(newSave);
         this.storage.save();
 
+        // Set up the game map
         const newMapId = mapService.getMaxId();
         mapService.add(new Map({
           width: 100,
@@ -186,9 +194,15 @@ export class NewCharacterScreen extends BaseScreen<Input>
           ratio: 0.45,
           iterations: 3
         }));
+
+        // Generate an ID for that map
         mapService.setCurrent(newMapId);
 
-        this.ui.goTo(GameScreen.initialize(this.storage, this.content, character));
+        // Generate the tiles
+        mapService.getCurrent().generate();
+
+        // And awaaaaay we gooooo
+        this.ui.goTo(GameScreen.initialize(this.storage, this.content, newSave));
         return true;
 
       case KeyCode.tab:

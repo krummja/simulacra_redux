@@ -29,7 +29,7 @@ class StagePanel extends panel_1.Panel {
                 this.drawStageGlyph(terminal, x, y, tile.glyph);
             }
         }
-        this.drawStageGlyph(terminal, 30, 30, new glyph_1.Glyph({ character: "@", foreground: "#f0f" }));
+        this.drawStageGlyph(terminal, 30, 30, new glyph_1.Glyph({ character: "@", foreground: "#f0f", background: "transparent" }));
     }
     // Draws [Glyph] at [x], [y] in [Stage] coordinates onto the current view.
     drawStageGlyph(terminal, x, y, glyph) {

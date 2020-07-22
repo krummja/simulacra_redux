@@ -8,6 +8,7 @@ import { Actor } from './actor';
 import { MapService } from './services/map.service';
 import { ActorService } from './services/actor.service';
 import { container } from './container';
+import { Vec } from '../stage/array2d';
 
 const actorService = container.get<ActorService>("ActorService");
 const mapService = container.get<MapService>("MapService");
@@ -27,9 +28,9 @@ export class Game
   set stage(s: Stage) { this._stage = s; }
   private _stage: Stage;
 
-  get subject() { return this._subject; }
-  set subject(a: Actor) { this._subject = a; }
-  private _subject: Actor = null;
+  get player() { return this._player; }
+  set player(a: Actor) { this._player = a; }
+  private _player: Actor = null;
   
   constructor(
     public content: Content,
@@ -38,6 +39,18 @@ export class Game
     public height: number
   ) {
     this._stage = new Stage(width ? width : 100, height ? height : 48, this);
+  }
+
+  *initialize(): Iterable<string>
+  {
+    let playerPos: Vec = {x: 0, y: 0};
+    yield* this.content.buildStage(this._stage, (pos) => { playerPos = pos });
+
+    // this._player = new Player(this, playerPos, this.save);
+    // this._stage.addActor(this._player);
+
+    yield "Calculating Visibility";
+    // this._stage.refresh();
   }
 }
 
@@ -52,7 +65,7 @@ export abstract class Content
   
   backgrounds: Background[] = [];
   
-  abstract buildStage(): Iterable<string>;
+  abstract buildStage(stage: Stage, placePlayer: (arg0: Vec) => void): Iterable<string>;
 
   abstract createPlayer(id: number, name: string, background: Background, baseClass: BaseClass): CharacterSave;
 }

@@ -31,7 +31,7 @@ class Map {
         this.height = config['height'];
         this.ratio = config['ratio'];
         this.iterations = config['iterations'];
-        this.area = new array2d_1.Array2D(this.width, this.height, null);
+        this.area = new array2d_1.Array2D(this.width, this.height, tile_1.Tile.nullTile());
         this.explored = new array2d_1.Array2D(this.width, this.height, false);
     }
     generate() {
@@ -39,15 +39,16 @@ class Map {
         let iterations = this.iterations;
         generator.randomize(this.ratio);
         for (let i = 0; i < iterations - 1; i++) {
-            generator.create((x, y, v) => {
-                if (v === 1) {
-                    this.area.set({ x: x, y: y }, tile_1.Tile.floorTile());
-                }
-                else {
-                    this.area.set({ x: x, y: y }, tile_1.Tile.wallTile());
-                }
-            });
+            generator.create();
         }
+        generator.create((x, y, v) => {
+            if (v === 1) {
+                this.area.set({ x: x, y: y }, tile_1.Tile.floorTile());
+            }
+            else {
+                this.area.set({ x: x, y: y }, tile_1.Tile.wallTile());
+            }
+        });
     }
     static getTile(map, pos) {
         if (pos.x < 0 || pos.x >= map.width || pos.y < 0 || pos.y >= map.height) {

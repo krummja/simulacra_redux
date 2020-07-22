@@ -6,7 +6,7 @@ import { Entity } from "../engine/core/entity";
 
 export class Storage
 {
-  characters: CharacterSave[] = [];
+  saveData: CharacterSave[] = [];
 
   constructor(
     public content: Content
@@ -34,7 +34,7 @@ export class Storage
         baseClass: baseClass
       }
 
-      this.characters.push(characterSave);
+      this.saveData.push(characterSave);
     }
   }
 
@@ -42,12 +42,12 @@ export class Storage
   {
     let characterData = [];
 
-    for (let i = 0; i < this.characters.length; i++) {
+    for (let i = 0; i < this.saveData.length; i++) {
       characterData.push({
-        id:         this.characters[i]['id'],
-        name:       this.characters[i]['name'],
-        background: this.characters[i]['background'],
-        baseClass:  this.characters[i]['baseClass']
+        id:         this.saveData[i]['id'],
+        name:       this.saveData[i]['name'],
+        background: this.saveData[i]['background'],
+        baseClass:  this.saveData[i]['baseClass']
       })
     }
 

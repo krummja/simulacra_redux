@@ -12,6 +12,9 @@ export class Stage
 
   actorsByTile: Array2D<Actor> = new Array2D(this._width, this._height);
 
+  get actors() { return this._actors as Iterable<Actor>; }
+  private _actors: Actor[] = [];
+
   get width() { return this.tiles.width; }
   get height() { return this.tiles.height; }
 
@@ -20,6 +23,12 @@ export class Stage
     private _height: number, 
     public game: Game
   ) {}
+
+  addActor(actor: Actor) 
+  {
+    this._actors.push(actor);
+    // this.actorsByTile[actor.pos]
+  }
 
   moveActor(from: Vec, to: Vec)
   {
