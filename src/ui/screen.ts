@@ -49,7 +49,7 @@ export abstract class BaseScreen<T>
 
   activate(popped: BaseScreen<T>, result: {}): void {}
 
-  update(): void {}
+  abstract update(): void;
 
   render(terminal: Terminal): void {}
 }

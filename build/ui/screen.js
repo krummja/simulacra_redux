@@ -35,7 +35,6 @@ class BaseScreen {
     keyDown(keyCode, shift, alt) { return; }
     keyUp(keyCode, shift, alt) { return; }
     activate(popped, result) { }
-    update() { }
     render(terminal) { }
 }
 exports.BaseScreen = BaseScreen;

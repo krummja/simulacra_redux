@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Backgrounds = void 0;
-const background_1 = require("../engine/character/background");
+const background_1 = require("../engine/player/background");
 class Backgrounds {
 }
 exports.Backgrounds = Backgrounds;

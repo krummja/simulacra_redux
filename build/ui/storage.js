@@ -4,7 +4,7 @@ exports.Storage = void 0;
 class Storage {
     constructor(content) {
         this.content = content;
-        this.characters = [];
+        this.saveData = [];
         this.load();
     }
     load() {
@@ -23,17 +23,17 @@ class Storage {
                 background: background,
                 baseClass: baseClass
             };
-            this.characters.push(characterSave);
+            this.saveData.push(characterSave);
         }
     }
     save() {
         let characterData = [];
-        for (let i = 0; i < this.characters.length; i++) {
+        for (let i = 0; i < this.saveData.length; i++) {
             characterData.push({
-                id: this.characters[i]['id'],
-                name: this.characters[i]['name'],
-                background: this.characters[i]['background'],
-                baseClass: this.characters[i]['baseClass']
+                id: this.saveData[i]['id'],
+                name: this.saveData[i]['name'],
+                background: this.saveData[i]['background'],
+                baseClass: this.saveData[i]['baseClass']
             });
         }
         localStorage.setItem('characters', JSON.stringify(characterData));

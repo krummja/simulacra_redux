@@ -1,4 +1,4 @@
-import { Background } from '../engine/character/background';
+import { Background } from '../engine/player/background';
 
 export class Backgrounds
 {

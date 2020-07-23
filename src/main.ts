@@ -4,7 +4,7 @@ import * as ROT from 'rot-js';
 
 import { createContent } from './content';
 import { Debug } from './debug';
-import { Actor, Content, Entity } from './engine';
+import { Actor, Content } from './engine';
 import { TerminalProps } from './types';
 import { BaseScreen, Input, UserInterface, KeyCode } from './ui';
 import { MainMenuScreen } from './ui/main_menu_screen';

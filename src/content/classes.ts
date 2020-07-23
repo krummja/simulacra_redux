@@ -1,4 +1,4 @@
-import { BaseClass } from "../engine/character/base_class";
+import { BaseClass } from "../engine/player/base_class";
 
 
 export class BaseClasses

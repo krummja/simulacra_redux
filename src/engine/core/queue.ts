@@ -8,6 +8,8 @@ export class Queue<T>
   // Maximum elements the queue can contain.
   private readonly _maxSize: number;
 
+  get queue() { return this._queue; }
+
   constructor(maxSize: number)
   {
     this._length = 0;

@@ -23,6 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./engine/core/game"), exports);
-__exportStar(require("./engine/core/entity"), exports);
+__exportStar(require("./engine/action/action"), exports);
+__exportStar(require("./engine/action/direction"), exports);
+__exportStar(require("./engine/action/walk"), exports);
 __exportStar(require("./engine/core/actor"), exports);
+__exportStar(require("./engine/player/player"), exports);
 exports.Input = __importStar(require("./engine/core/input"));

@@ -43,7 +43,7 @@ class MainMenuScreen extends screen_1.BaseScreen {
                 return true;
             case input_1.Input.cancel:
                 //! TODO: BE SURE TO REMOVE THIS BEFORE PRODUCTION LOL
-                this.storage.characters = [];
+                this.storage.saveData = [];
                 this.ui.dirty();
                 this.ui.refresh();
         }
@@ -65,11 +65,11 @@ class MainMenuScreen extends screen_1.BaseScreen {
         let width = terminal.size.x;
         let height = terminal.size.y;
         display.drawText(10, 18, 'Which character shall you play?');
-        if (this.storage.characters.length == 0) {
+        if (this.storage.saveData.length == 0) {
             display.drawText(10, 20, '%c{#ff0000}No characters! Please create a new one.%c{}');
         }
-        for (let i = 0; i < this.storage.characters.length; i++) {
-            let character = this.storage.characters[i];
+        for (let i = 0; i < this.storage.saveData.length; i++) {
+            let character = this.storage.saveData[i];
             if (i == this.selection) {
                 display.drawText(8, 20 + i, '%c{#cc66ff}▶%c{}');
             }
@@ -88,9 +88,10 @@ class MainMenuScreen extends screen_1.BaseScreen {
         display.drawText((width - 66) / 2, (height - 1), '[enter] select, [⬆/⬇] change selection, [N] create new, [D] delete');
     }
     _changeSelection(offset) {
-        this.selection = mod_1.mod((this.selection + offset), this.storage.characters.length);
+        this.selection = mod_1.mod((this.selection + offset), this.storage.saveData.length);
         this.ui.dirty();
         this.ui.refresh();
     }
+    update() { }
 }
 exports.MainMenuScreen = MainMenuScreen;

@@ -1,30 +1,59 @@
 import { IGlyph, RenderOrder } from '../../ui';
+import { Glyph } from '../../ui/glyph';
+import { Action } from '../action/action';
 import { Vec } from '../stage/array2d';
-import { Entity } from './entity';
 import { Game } from './game';
 
 
 export class Actor implements Noun
 {
-  public id: number;
-  
   game: Game;
 
-  get pos() { return this._pos; }
-  set pos(v: Vec) { this._pos = v; }
+  glyph: Glyph;
+  
+  id: number;
+
+  name: string;
+
   private _pos: Vec = {x: 0, y: 0};
 
+  get needsInput(): boolean { return false; }
+
+  get pos() { return this._pos; }
+
+  set pos(v: Vec) { this._pos = v; }
+
   constructor(
-    public name: string,
     public sightRadius: number,
-    public renderOrder: RenderOrder,
     public glyphProps: IGlyph
-  ) {}
+  ) {
+    this.glyph = new Glyph(glyphProps);
+  }
   
   changePosition(from: Vec, to: Vec)
   {
     this.game.stage.moveActor(from, to);
   }
+
+  finishTurn(action: Action)
+  {
+    this.onFinishTurn(action);
+  }
+
+  onFinishTurn(action: Action): void
+  {
+    // Do nothing
+  }
+
+  getAction(): Action {
+    console.log("Call to getAction()");
+    
+    let action = this.onGetAction();
+    if (action != null) action.bind(this);
+    return action;
+  }
+
+  onGetAction(): Action { return; }
 }
 
 

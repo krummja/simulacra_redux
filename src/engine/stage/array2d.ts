@@ -9,7 +9,7 @@ export interface Vec {
 
 export class Array2D<T>
 {
-  private _elements: T[][] = [];
+  private _elements: {[key: string]: T} = {};
 
   constructor(
     public width: number,
@@ -17,21 +17,19 @@ export class Array2D<T>
     value?: T
   ) {
     for (let x = 0; x < this.width; x++) {
-      this._elements[x] = [];
-
       for (let y = 0; y < this.height; y++) {
-        this._elements[x][y] = value;
+        this._elements[x+","+y] = value;
       }
     }
   }
 
   get(pos: Vec)
   {
-    return this._elements[pos.x][pos.y];
+    return this._elements[pos.x+","+pos.y];
   }
 
   set(pos: Vec, value: T)
   {
-    this._elements[pos.x][pos.y] = value;
+    this._elements[pos.x+","+pos.y] = value;
   }
 }

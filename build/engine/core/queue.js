@@ -7,6 +7,7 @@ class Queue {
         this._maxSize = maxSize > 0 ? maxSize : 10;
         this._queue = new Array(this._maxSize);
     }
+    get queue() { return this._queue; }
     isEmpty() { return this._length === 0; }
     isFull() { return this._length === this._maxSize; }
     enqueue(item) {

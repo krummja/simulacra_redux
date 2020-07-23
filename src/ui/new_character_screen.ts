@@ -186,21 +186,6 @@ export class NewCharacterScreen extends BaseScreen<Input>
         this.storage.saveData.push(newSave);
         this.storage.save();
 
-        // Set up the game map
-        const newMapId = mapService.getMaxId();
-        mapService.add(new Map({
-          width: 100,
-          height: 48,
-          ratio: 0.45,
-          iterations: 3
-        }));
-
-        // Generate an ID for that map
-        mapService.setCurrent(newMapId);
-
-        // Generate the tiles
-        mapService.getCurrent().generate();
-
         // And awaaaaay we gooooo
         this.ui.goTo(GameScreen.initialize(this.storage, this.content, newSave));
         return true;
@@ -271,4 +256,6 @@ export class NewCharacterScreen extends BaseScreen<Input>
   
   private _changeRace(offset: number): void {}
   private _changeClass(offset: number): void {}
+
+  update(){}
 }

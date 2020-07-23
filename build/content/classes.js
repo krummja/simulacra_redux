@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseClasses = void 0;
-const base_class_1 = require("../engine/character/base_class");
+const base_class_1 = require("../engine/player/base_class");
 class BaseClasses {
 }
 exports.BaseClasses = BaseClasses;

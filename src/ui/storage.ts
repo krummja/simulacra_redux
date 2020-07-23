@@ -1,7 +1,6 @@
 import { id } from "inversify";
 import { Content } from "../engine";
-import { CharacterSave } from "../engine/character/character_save";
-import { Entity } from "../engine/core/entity";
+import { CharacterSave } from "../engine/player/character_save";
 
 
 export class Storage

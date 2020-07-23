@@ -9,9 +9,9 @@ import { NewCharacterScreen } from './new_character_screen';
 import { BaseScreen } from './screen';
 import { Storage } from './storage';
 import { mod } from './util/mod';
-import { CharacterSave } from '../engine/character/character_save';
-import { Background } from '../engine/character/background';
-import { BaseClass } from '../engine/character/base_class';
+import { CharacterSave } from '../engine/player/character_save';
+import { Background } from '../engine/player/background';
+import { BaseClass } from '../engine/player/base_class';
 import { GameContent } from '../content';
 import { Map } from '../engine/core/map';
 import { Rect } from '../engine/stage/rect';
@@ -66,7 +66,7 @@ export class MainMenuScreen extends BaseScreen<Input>
       
       case Input.cancel:
         //! TODO: BE SURE TO REMOVE THIS BEFORE PRODUCTION LOL
-        this.storage.characters = [];
+        this.storage.saveData = [];
         this.ui.dirty();
         this.ui.refresh();
     }
@@ -97,14 +97,14 @@ export class MainMenuScreen extends BaseScreen<Input>
 
     display.drawText(10, 18, 'Which character shall you play?');
 
-    if (this.storage.characters.length == 0) {
+    if (this.storage.saveData.length == 0) {
       display.drawText(10, 20, '%c{#ff0000}No characters! Please create a new one.%c{}');
     }
 
-    for (let i = 0; i < this.storage.characters.length; i++) {
+    for (let i = 0; i < this.storage.saveData.length; i++) {
 
 
-      let character: CharacterSave = this.storage.characters[i];
+      let character: CharacterSave = this.storage.saveData[i];
       if (i == this.selection) {
         display.drawText(8, 20 + i, '%c{#cc66ff}▶%c{}')
       }
@@ -132,8 +132,10 @@ export class MainMenuScreen extends BaseScreen<Input>
 
   private _changeSelection(offset: number): void
   {
-    this.selection = mod((this.selection + offset), this.storage.characters.length);
+    this.selection = mod((this.selection + offset), this.storage.saveData.length);
     this.ui.dirty();
     this.ui.refresh();
   }
+
+  update(){}
 }

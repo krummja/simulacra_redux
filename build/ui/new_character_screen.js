@@ -9,8 +9,8 @@ const mod_1 = require("./util/mod");
 const game_screen_1 = require("./game_screen");
 // TODO: Move this to content generation
 const container_1 = require("../engine/core/container");
-const map_1 = require("../engine/core/map");
 const mapService = container_1.container.get("MapService");
+const actorService = container_1.container.get("ActorService");
 class _Field {
 }
 _Field.NAME = 0;
@@ -135,20 +135,15 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     keyDown(keyCode, shift, alt) {
         switch (keyCode) {
             case key_bindings_1.KeyCode.enter:
+                // Create a new ID to use for the Actor
                 let id = Math.floor(100000 + Math.random() * 900000);
-                let character = this.content.createPlayer(id, this._name.length > 0 ? this._name : this._defaultName, this.content.backgrounds[this._background], this.content.baseClasses[this._class]);
-                this.storage.characters.push(character);
+                // Call the player creator
+                let newSave = this.content.createPlayer(id, this._name.length > 0 ? this._name : this._defaultName, this.content.backgrounds[this._background], this.content.baseClasses[this._class]);
+                // Shove that newly printed infant into storage :>
+                this.storage.saveData.push(newSave);
                 this.storage.save();
-                const newMapId = mapService.getMaxId();
-                mapService.add(new map_1.Map({
-                    width: 100,
-                    height: 48,
-                    ratio: 0.45,
-                    iterations: 3
-                }));
-                mapService.setCurrent(newMapId);
-                mapService.getCurrent().generate();
-                this.ui.goTo(game_screen_1.GameScreen.initialize(this.storage, this.content, character));
+                // And awaaaaay we gooooo
+                this.ui.goTo(game_screen_1.GameScreen.initialize(this.storage, this.content, newSave));
                 return true;
             case key_bindings_1.KeyCode.tab:
                 if (shift) {
@@ -205,5 +200,6 @@ class NewCharacterScreen extends screen_1.BaseScreen {
     }
     _changeRace(offset) { }
     _changeClass(offset) { }
+    update() { }
 }
 exports.NewCharacterScreen = NewCharacterScreen;

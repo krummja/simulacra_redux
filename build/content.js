@@ -13,10 +13,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GameContent = exports.createContent = void 0;
 const backgrounds_1 = require("./content/backgrounds");
 const classes_1 = require("./content/classes");
-const character_save_1 = require("./engine/character/character_save");
+const character_save_1 = require("./engine/player/character_save");
+const town_1 = require("./content/stage/town");
 __exportStar(require("./content/backgrounds"), exports);
 __exportStar(require("./content/classes"), exports);
+__exportStar(require("./content/stage/town"), exports);
 function createContent() {
+    // TODO: Implement this!!
     return;
 }
 exports.createContent = createContent;
@@ -30,8 +33,8 @@ class GameContent {
         ];
     }
     // TODO: Implement stage, position
-    buildStage() {
-        return;
+    buildStage(stage, placePlayer) {
+        new town_1.Town(stage).buildStage(placePlayer);
     }
     createPlayer(id, name, background, baseClass) {
         return new character_save_1.CharacterSave(id, name, background, baseClass);

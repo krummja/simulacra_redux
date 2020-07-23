@@ -1,9 +1,9 @@
 import { Content } from './engine';
-import { Background } from './engine/character/background';
+import { Background } from './engine/player/background';
 import { Backgrounds } from './content/backgrounds';
-import { BaseClass } from './engine/character/base_class';
+import { BaseClass } from './engine/player/base_class';
 import { BaseClasses } from './content/classes';
-import { CharacterSave } from './engine/character/character_save';
+import { CharacterSave } from './engine/player/character_save';
 import { Stage } from './engine/stage/stage';
 import { Vec } from './engine/stage/array2d';
 import { Town } from './content/stage/town';
@@ -14,6 +14,7 @@ export * from './content/stage/town';
 
 export function createContent(): Content
 {
+  // TODO: Implement this!!
   return;
 }
 
@@ -28,9 +29,9 @@ export class GameContent implements Content
   ];
   
   // TODO: Implement stage, position
-  buildStage(stage: Stage, placePlayer: (arg0: Vec) => void): Iterable<string>
+  buildStage(stage: Stage, placePlayer: (arg0: Vec) => void): void
   {
-    return new Town(stage).buildStage(placePlayer);
+    new Town(stage).buildStage(placePlayer);
   }
 
   createPlayer(id: number, name: string, background: Background, baseClass: BaseClass): CharacterSave

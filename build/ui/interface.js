@@ -15,14 +15,14 @@ const key_bindings_1 = require("./key_bindings");
 class UserInterface {
     constructor(terminal) {
         this.terminal = terminal;
+        // Define the game's set of valid keybindings.
         this.keyPress = new key_bindings_1.KeyBindings();
         // The current set of screens bound to this [UserInterface].
         this.screens = [];
+        // If the UI is dirty, re-render
         this._dirty = true;
         this.display = terminal['terminal'];
     }
-    // get screens() { return this.screens; }
-    // private screens: Array<BaseScreen<T>> = new Array<BaseScreen<T>>();
     get handlingInput() { return this._handlingInput; }
     set handlingInput(v) {
         if (v === this._handlingInput)
@@ -32,35 +32,10 @@ class UserInterface {
             document.body.addEventListener("keyup", e => this.keyUp(e));
         }
     }
-    dirty() {
-        this._dirty = true;
-    }
+    dirty() { this._dirty = true; }
     goTo(screen) {
         let old = this.screens.pop();
         old.unbind();
-        screen.bind(this);
-        this.screens.push(screen);
-        this.render();
-    }
-    refresh() {
-        for (let i = 0; i < this.screens.length; i++) {
-            this.screens[i].update();
-        }
-        if (this._dirty)
-            this.render();
-    }
-    render() {
-        // If the UI isn't bound to a terminal, do nothing.
-        if (this.terminal == null)
-            return;
-        // Clear the terminal each frame.
-        this.display.clear();
-        // Then, for every screen bound to this terminal, draw that screen to the terminal.
-        for (let i = 0; i < this.screens.length; i++) {
-            this.screens[i].render(this.terminal);
-        }
-    }
-    push(screen) {
         screen.bind(this);
         this.screens.push(screen);
         this.render();
@@ -69,6 +44,11 @@ class UserInterface {
         let screen = this.screens.pop();
         screen.unbind();
         this.screens[this.screens.length - 1].activate(screen, result);
+        this.render();
+    }
+    push(screen) {
+        screen.bind(this);
+        this.screens.push(screen);
         this.render();
     }
     /**
@@ -99,6 +79,25 @@ class UserInterface {
         let screen = this.screens[this.screens.length - 1];
         if (screen.keyUp(keyCode)) {
             event.preventDefault();
+        }
+    }
+    refresh() {
+        console.log("Call to refresh()");
+        for (let i = 0; i < this.screens.length; i++) {
+            this.screens[i].update();
+        }
+        if (this._dirty)
+            this.render();
+    }
+    render() {
+        // If the UI isn't bound to a terminal, do nothing.
+        if (this.terminal == null)
+            return;
+        // Clear the terminal each frame.
+        this.display.clear();
+        // Then, for every screen bound to this terminal, draw that screen to the terminal.
+        for (let i = 0; i < this.screens.length; i++) {
+            this.screens[i].render(this.terminal);
         }
     }
 }
